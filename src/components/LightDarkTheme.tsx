@@ -10,24 +10,25 @@ import { useTheme } from "next-themes";
 type Props = {};
 
 const LightDarkTheme = (props: Props) => {
-  const [toggle, setToggle] = useState(true);
   const { theme, setTheme } = useTheme();
 
-  toggle === true ? setTheme("light") : setTheme("dark");
-
   const onCheckedHandler = () => {
-    setToggle((prev) => !prev);
+    if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
   };
   return (
     <div className="w-[14rem] flex justify-center items-center gap-4 p-4 bg-[#F4F7FD] dark:bg-[#20212C] rounded-lg">
       <LightModeIcon
         sx={{ color: "grey"[200] }}
-        className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition duration-700 dark:-rotate-90"
+        className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition duration-700 dark:-rotate-90 dark:opacity-[.2] opacity-100"
       />
       <Switch className="" onCheckedChange={onCheckedHandler} />
       <DarkModeIcon
         sx={{ color: "grey"[200] }}
-        className="h-[1.2rem] w-[1.2rem] rotate-90 transition duration-700 dark:rotate-0 "
+        className="h-[1.2rem] w-[1.2rem] rotate-90 transition duration-700 dark:rotate-0 opacity-[.2] dark:opacity-100"
       />
     </div>
   );
