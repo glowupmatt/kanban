@@ -1,9 +1,11 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddIcon from "@mui/icons-material/Add";
 import { deepPurple } from "@mui/material/colors";
 import LightDarkTheme from "../LightDarkTheme";
 import CreateBoard from "./CreateBoard";
+import axios from "axios";
 
 type Props = {
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +13,22 @@ type Props = {
 
 const BoardMenu = (props: Props) => {
   const { setBoardOpen } = props;
+  const [boardData, setBoardData] = useState([]);
+  useEffect(() => {
+    const getBoardData = async () => {
+      const res = await axios
+        .get("/api/createBoard")
+        .then((res) => {
+          setBoardData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log(res);
+    };
+    getBoardData();
+  }, []);
+  console.log(boardData);
   return (
     <div className="max-w-[16.5rem] w-full bg-grey-light dark:bg-grey-dark p-[1.5rem] rounded-lg min-h-[15rem] justify-between flex flex-col items-start">
       <h4 className="opacity-[.6]">All Boards (1)</h4>

@@ -70,22 +70,6 @@ const AuthForm = () => {
         .finally(() => setIsLoading(false));
     }
   };
-
-  // const socialAction = (action: string) => {
-  //   setIsLoading(true);
-
-  //   signIn(action, { redirect: false })
-  //     .then((callback) => {
-  //       if (callback?.error) {
-  //         toast.error("Invalid Credentials");
-  //       }
-
-  //       if (callback?.ok && !callback?.error) {
-  //         toast.success("Logged in!");
-  //       }
-  //     })
-  //     .finally(() => setIsLoading(false));
-  // };
   return (
     <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">

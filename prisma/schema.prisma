@@ -39,7 +39,7 @@ model User {
   updatedAt      DateTime  @updatedAt
 
   board  Board[]  @relation("BoardToUser")
-  column Column[] @relation("ColumnToUser")
+  columns Column[] @relation("ColumnToUser")
   task   Task[]   @relation("TaskToUser")
 
   accounts Account[]
