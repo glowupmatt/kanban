@@ -9,9 +9,7 @@ const TemplateLayout = (props: Props) => {
   const { children } = props;
   return (
     <AuthContext>
-      <main className="h-screen flex justify-center items-center w-full">
-        {children}
-      </main>
+      <main className="">{children}</main>
     </AuthContext>
   );
 };

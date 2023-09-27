@@ -18,7 +18,7 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/users");
+      router.push("/kanban");
     }
   }, [session?.status, router]);
 

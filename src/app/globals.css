@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap");
 
 @layer base {
   :root {
@@ -74,11 +75,45 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Firefox */
 * {
   scrollbar-width: 0;
   scrollbar-color: transparent transparent;
+  font-family: Plus Jakarta Sans, sans-serif;
+}
+/* FontSizes */
+h1,
+h2,
+h3,
+h4,
+li {
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 1.5rem;
+  line-height: 30px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 23px;
+}
+
+h3 {
+  font-size: 0.9375rem;
+  line-height: 19px;
+}
+
+h4 {
+  font-size: 0.75rem;
+  line-height: 15px;
+  letter-spacing: 0.15rem;
+}
+
+p {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.4375rem;
 }
 
 /* Chrome, Edge, and Safari */
