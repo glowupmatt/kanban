@@ -14,14 +14,12 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { DialogClose } from "../ui/dialog";
 
-type Props = {
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type Props = {};
 
 const CreateBoard = (props: Props) => {
-  const { setBoardOpen } = props;
   const [boardColumns, setBoardColumns] = useState(["New Column"]);
   const [boardName, setBoardName] = useState("New Board");
+
   const addColumnHandler = () => {
     setBoardColumns((prev) => [...prev, `New Column`]);
   };
@@ -57,8 +55,7 @@ const CreateBoard = (props: Props) => {
         ...data,
         ...data.columns,
       })
-      .then((res) => res)
-      .finally(() => setBoardOpen((prev) => !prev));
+      .then((res) => res);
     console.log(res);
   };
   return (
