@@ -16,36 +16,63 @@ import NoCurrentColumns from "./editBoard/NoCurrentColumns";
 import HasColumns from "./editBoard/HasColumns";
 
 type Props = {
-  selectedBoard: any;
+  selectedBoardId: any;
+  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+  boardData: any;
+  displayBoard: any;
 };
 
 const CreateColumn = (props: Props) => {
-  const [boardColumns, setBoardColumns] = useState(["New Column"]);
-  const [boardTitle, setBoardTitle] = useState("");
-  const { selectedBoard } = props;
-  const { columns, title, id } = selectedBoard;
+  const { selectedBoardId, setUpdated, boardData, displayBoard } = props;
+  const { title, columns, id } = displayBoard[0];
+  const [boardTitle, setBoardTitle] = useState(`${title}`);
+  const [oldBoardColumns, setOldBoardColumns] = useState([
+    ...columns.map((column: any) => {
+      return column.title;
+    }),
+  ]);
+  const [boardColumns, setBoardColumns] = useState(["Add A New Column"]);
 
-  console.log(boardTitle, "BOARD TITLE");
   const boardNameOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBoardTitle(e.currentTarget.value);
   };
-  console.log(boardTitle);
 
-  // console.log(boardColumns);
+  console.log(oldBoardColumns, "oldBoardColumns");
+
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = {
-      title: boardTitle,
-      columns: boardColumns.map((title) => title),
-    };
-    console.log(data);
-    const res = await axios
-      .put(`/api/createBoard/${id}`, {
-        ...data,
-        ...data.columns,
-      })
-      .then((res) => res);
-    console.log(res);
+    try {
+      const res = columns.map((column: any, index: number) => {
+        const editOldColumns = async () => {
+          const data = {
+            title: oldBoardColumns[index],
+          };
+
+          console.log(title, "columnTitle");
+          const res = await axios
+            .put(`/api/createBoard/${id}/${column.id}`, { ...data })
+            .then((res) => res)
+            .finally(() => setUpdated(true));
+          console.log(res, "res2");
+        };
+        editOldColumns();
+      });
+      if (boardColumns.length > 0) {
+        const data = {
+          title: boardTitle === "" ? title : boardTitle,
+          columns: boardColumns.map((title) => title),
+        };
+        const res = await axios
+          .put(`/api/createBoard/${id}`, {
+            ...data,
+            ...data.columns,
+          })
+          .then((res) => res)
+          .finally(() => setUpdated(true));
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -67,7 +94,8 @@ const CreateColumn = (props: Props) => {
                 <div>
                   <label htmlFor="boardName">Board Name</label>
                   <Input
-                    placeholder={title}
+                    id="boardName"
+                    placeholder={boardTitle}
                     type="text"
                     value={boardTitle}
                     onChange={boardNameOnChangeHandler}
@@ -94,14 +122,27 @@ const CreateColumn = (props: Props) => {
                 className="flex flex-col gap-4 w-full"
                 onSubmit={onSubmitHandler}
               >
+                <div>
+                  <label htmlFor="boardName">Board Name</label>
+                  <Input
+                    id="boardName"
+                    value={boardTitle}
+                    type="text"
+                    onChange={boardNameOnChangeHandler}
+                  />
+                </div>
                 <HasColumns
                   boardColumns={boardColumns}
                   setBoardColumns={setBoardColumns}
                   columns={columns}
+                  setUpdated={setUpdated}
+                  selectedBoardId={selectedBoardId}
+                  oldBoardColumns={oldBoardColumns}
+                  setOldBoardColumns={setOldBoardColumns}
                 />
                 <Button
                   type="submit"
-                  className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1"
+                  className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 self-center w-full"
                 >
                   <DialogClose>
                     <p>Save Changes</p>

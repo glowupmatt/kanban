@@ -10,22 +10,22 @@ import classNames from "classNames";
 type Props = {
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
   boardOpen: boolean;
-  selectedBoard: any;
-  editBoardToggle: boolean;
+  selectedBoardId: any;
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  displayBoard: any;
 };
 
 const Nav = (props: Props) => {
   const {
     setBoardOpen,
     boardOpen,
-    selectedBoard,
-    editBoardToggle,
+    selectedBoardId,
     setEditBoardToggle,
+    displayBoard,
   } = props;
 
   return (
-    <nav className="flex justify-evenly items-center gap-4 p-4 w-full bg-grey-light dark:bg-grey-darkest">
+    <nav className="flex justify-evenly items-center gap-4 p-4 w-full bg-white dark:bg-grey-darkest">
       <Image
         src="/KanbanFiles/kanbanLogo.svg"
         alt="Logo"
@@ -35,16 +35,18 @@ const Nav = (props: Props) => {
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-[.6rem]">
-          {selectedBoard.title ? (
-            <h2>{selectedBoard?.title}</h2>
+          {displayBoard.length < 0 && selectedBoardId ? (
+            <h2 onClick={() => setBoardOpen((prev) => !prev)}>
+              {displayBoard[0]?.title}
+            </h2>
           ) : (
-            <h2>Select Board</h2>
+            <h2 onClick={() => setBoardOpen((prev) => !prev)}>Select Board</h2>
           )}
 
           <div
             onClick={() => setBoardOpen((prev) => !prev)}
             className={classNames(
-              "",
+              "h-full",
               {
                 "rotate-180 transform transition duration-500 ease-in-out":
                   boardOpen,

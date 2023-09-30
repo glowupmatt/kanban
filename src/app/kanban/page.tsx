@@ -1,24 +1,20 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import classNames from "classNames";
-import Nav from "@/components/kanbanBoard/Nav";
 import ColumnList from "@/components/kanbanBoard/ColumnList";
-import BoardMenu from "@/components/kanbanBoard/BoardMenu";
 import axios from "axios";
-import CreateColumn from "@/components/kanbanBoard/CreateColumn";
-import EditBoardModal from "@/components/kanbanBoard/editBoard/EditBoardModal";
+import NavBody from "@/components/kanbanBoard/NavBody";
 
 type Props = {};
 
 const KanbanPage = (props: Props) => {
+  //Sets board menu open/close
   const [boardOpen, setBoardOpen] = useState(false);
-  const [editBoardToggle, setEditBoardToggle] = useState(false);
+  //Redirection to login page if user is not authenticated
   const session = useSession();
   const router = useRouter();
-
-  //Redirection to login page if user is not authenticated
   useEffect(() => {
     if (session?.status === "unauthenticated") {
       router.push("/");
@@ -26,8 +22,10 @@ const KanbanPage = (props: Props) => {
   }, [session, router]);
   //Board data
   const [boardData, setBoardData] = useState([]);
-  const [selectedBoard, setSelectedBoard] = useState({} as any);
+  const [selectedBoardId, setSelectedBoardId] = useState("");
   const [updated, setUpdated] = useState(true);
+
+  //Gets board data from database & updates when board is updated
   useEffect(() => {
     const getBoardData = async () => {
       const res = await axios
@@ -40,46 +38,37 @@ const KanbanPage = (props: Props) => {
         });
       return res;
     };
-
     if (updated) {
       getBoardData().finally(() => setUpdated(false));
     }
   }, [updated]);
 
-  console.log(selectedBoard);
-  console.log(boardData);
+  const displayBoard = boardData.filter((board: any) => {
+    return board.id === selectedBoardId;
+  });
+
+  console.log(displayBoard, "displayBoard");
   return (
+    //Main Body Container
     <div
       className={classNames(
         "h-screen justify-between items-center flex flex-col w-full relative bg-grey-light dark:bg-black-dark"
       )}
     >
-      <div className={classNames("w-full")}>
-        <Nav
-          setBoardOpen={setBoardOpen}
-          boardOpen={boardOpen}
-          selectedBoard={selectedBoard}
-          editBoardToggle={editBoardToggle}
-          setEditBoardToggle={setEditBoardToggle}
-        />
-      </div>
-      {!boardOpen ? null : (
-        <BoardMenu
-          setBoardOpen={setBoardOpen}
-          boardData={boardData}
-          setSelectedBoard={setSelectedBoard}
-          selectedBoard={selectedBoard}
-        />
-      )}
-      {!editBoardToggle ? null : (
-        <EditBoardModal
-          setEditBoardToggle={setEditBoardToggle}
-          editBoardToggle={editBoardToggle}
-          selectedBoard={selectedBoard}
-          setSelectedBoard={setSelectedBoard}
-          setUpdated={setUpdated}
-        />
-      )}
+      {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
+      <NavBody
+        setBoardOpen={setBoardOpen}
+        boardOpen={boardOpen}
+        selectedBoardId={selectedBoardId}
+        updated={updated}
+        setUpdated={setUpdated}
+        boardData={boardData}
+        setSelectedBoardId={setSelectedBoardId}
+        displayBoard={displayBoard}
+      />
+      {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
+
+      {/* Column List & Task List*/}
       <div
         className={classNames(
           "h-full flex justify-center items-center w-full overflow-scroll",
@@ -88,8 +77,14 @@ const KanbanPage = (props: Props) => {
           }
         )}
       >
-        <ColumnList selectedBoard={selectedBoard} />
+        <ColumnList
+          setUpdated={setUpdated}
+          selectedBoardId={selectedBoardId}
+          boardData={boardData}
+          displayBoard={displayBoard}
+        />
       </div>
+      {/* Column List & Task List*/}
     </div>
   );
 };

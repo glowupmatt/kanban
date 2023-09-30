@@ -14,9 +14,12 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { DialogClose } from "../ui/dialog";
 
-type Props = {};
+type Props = {
+  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const CreateBoard = (props: Props) => {
+  const { setUpdated } = props;
   const [boardColumns, setBoardColumns] = useState(["New Column"]);
   const [boardName, setBoardName] = useState("New Board");
 
@@ -49,14 +52,13 @@ const CreateBoard = (props: Props) => {
       title: e.currentTarget.boardName.value,
       columns: boardColumns.map((title) => title),
     };
-    console.log(data);
     const res = await axios
       .post("/api/createBoard", {
         ...data,
         ...data.columns,
       })
-      .then((res) => res);
-    console.log(res);
+      .then((res) => res)
+      .finally(() => setUpdated(true));
   };
   return (
     <Dialog>

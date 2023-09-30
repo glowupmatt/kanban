@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddIcon from "@mui/icons-material/Add";
 import { deepPurple } from "@mui/material/colors";
@@ -11,28 +11,37 @@ import classNames from "classNames";
 type Props = {
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
   boardData: any;
-  setSelectedBoard: React.Dispatch<any>;
-  selectedBoard: any;
+  setSelectedBoardId: React.Dispatch<any>;
+  selectedBoardId: any;
+  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const BoardMenu = (props: Props) => {
-  const { setBoardOpen, boardData, setSelectedBoard, selectedBoard } = props;
-  console.log(selectedBoard, "SELECTED BOARD");
+  const {
+    setBoardOpen,
+    boardData,
+    setSelectedBoardId,
+    selectedBoardId,
+    setUpdated,
+  } = props;
 
   return (
-    <div className="absolute top-[5rem] z-10 max-w-full w-[17rem] bg-grey-light dark:bg-grey-dark gap-4 rounded-lg min-h-[15rem] justify-between flex flex-col items-start">
+    <div className="absolute top-[5rem] z-10 max-w-full w-[17rem] bg-white dark:bg-grey-dark gap-4 rounded-lg min-h-[15rem] justify-between flex flex-col items-start">
       <h4 className="opacity-[.6] px-[1.5rem] pt-[1.5rem]">
         All Boards ({boardData.length})
       </h4>
       <div className="flex gap-[0.87rem] flex-col w-full">
         {boardData.map((board: any) => {
-          const { title, id } = board;
+          const { id } = board;
           const onclickHandler = async () => {
-            const res = await axios
-              .get(`/api/createBoard/${id}`)
-              .then((res) => res.data);
-            setSelectedBoard(res);
-            setBoardOpen(false);
+            try {
+              await axios
+                .get(`/api/createBoard/${id}`)
+                .then((res) => setSelectedBoardId(res.data.id))
+                .finally(() => setBoardOpen(false));
+            } catch (error) {
+              console.log(error);
+            }
           };
           return (
             <div
@@ -42,10 +51,10 @@ const BoardMenu = (props: Props) => {
                 "flex justify-center items-center gap-[.75rem]",
                 {
                   "bg-purple-main p-4 rounded-r-full w-[70%]":
-                    selectedBoard?.id === id,
+                    selectedBoardId === id,
                 },
                 {
-                  "ml-[1.5rem]": selectedBoard?.id !== id,
+                  "ml-[1.5rem]": selectedBoardId !== id,
                 }
               )}
             >
@@ -53,11 +62,11 @@ const BoardMenu = (props: Props) => {
               <h3
                 className={classNames(
                   "w-full",
-                  { "text-white opacity-100": selectedBoard?.id === id },
-                  { "opacity-[.6]": selectedBoard?.id !== id }
+                  { "text-white opacity-100": selectedBoardId === id },
+                  { "opacity-[.6]": selectedBoardId !== id }
                 )}
               >
-                {title}
+                {board.title}
               </h3>
             </div>
           );
@@ -68,7 +77,7 @@ const BoardMenu = (props: Props) => {
         <div className="flex gap-1 justify-center items-center">
           <AddIcon sx={{ color: deepPurple[500] }} />
           <h3 className="text-[#673ab7]">
-            <CreateBoard />
+            <CreateBoard setUpdated={setUpdated} />
           </h3>
         </div>
       </div>

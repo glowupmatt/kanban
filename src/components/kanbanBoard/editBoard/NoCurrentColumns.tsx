@@ -23,8 +23,6 @@ const NoCurrentColumns = (props: Props) => {
     });
   };
 
-  console.log(boardColumns, "COLUMNS");
-
   const addColumnHandler = () => {
     setBoardColumns((prev) => [...prev, `New Column`]);
   };
