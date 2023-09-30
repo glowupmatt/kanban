@@ -20,15 +20,15 @@ type Props = {
 
 const CreateBoard = (props: Props) => {
   const { setUpdated } = props;
-  const [boardColumns, setBoardColumns] = useState(["New Column"]);
+  const [newBoardColumns, setNewBoardColumns] = useState(["New Column"]);
   const [boardName, setBoardName] = useState("New Board");
 
   const addColumnHandler = () => {
-    setBoardColumns((prev) => [...prev, `New Column`]);
+    setNewBoardColumns((prev) => [...prev, `New Column`]);
   };
 
   const removeColumnHandler = (index: number) => {
-    setBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
+    setNewBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
   };
 
   const boardNameOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ const CreateBoard = (props: Props) => {
     index: number
   ) => {
     const { value } = event.target;
-    setBoardColumns((prev) => {
+    setNewBoardColumns((prev) => {
       const newBoardColumns = [...prev];
       newBoardColumns[index] = value;
       return newBoardColumns;
@@ -50,7 +50,7 @@ const CreateBoard = (props: Props) => {
     e.preventDefault();
     const data = {
       title: e.currentTarget.boardName.value,
-      columns: boardColumns.map((title) => title),
+      columns: newBoardColumns.map((title) => title),
     };
     const res = await axios
       .post("/api/createBoard", {
@@ -81,12 +81,12 @@ const CreateBoard = (props: Props) => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="boardColumns">Board Columns</label>
-            {boardColumns.map((board, index) => (
+            <label htmlFor="newBoardColumns">Board Columns</label>
+            {newBoardColumns.map((board, index) => (
               <div className="flex items-center gap-3" key={index}>
                 <Input
                   placeholder="Column Name"
-                  id="boardColumns"
+                  id="newBoardColumns"
                   type="text"
                   value={board}
                   onChange={(e) => columnOnChangeHandler(e, index)}

@@ -35,9 +35,9 @@ const Nav = (props: Props) => {
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-[.6rem]">
-          {displayBoard.length < 0 && selectedBoardId ? (
+          {displayBoard.length >= 0 && selectedBoardId ? (
             <h2 onClick={() => setBoardOpen((prev) => !prev)}>
-              {displayBoard[0]?.title}
+              {displayBoard[0].title}
             </h2>
           ) : (
             <h2 onClick={() => setBoardOpen((prev) => !prev)}>Select Board</h2>

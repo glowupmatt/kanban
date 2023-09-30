@@ -4,40 +4,43 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "../../ui/button";
 
 type Props = {
-  boardColumns: string[];
-  setBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
+  newBoardColumns: string[];
+  setNewBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 const NoCurrentColumns = (props: Props) => {
-  const { boardColumns, setBoardColumns } = props;
+  const { newBoardColumns, setNewBoardColumns } = props;
 
+  // Change Handler for the newBoardColumns state
   const columnOnChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { value } = event.target;
-    setBoardColumns((prev) => {
+    setNewBoardColumns((prev) => {
       const newBoardColumns = [...prev];
       newBoardColumns[index] = value;
       return newBoardColumns;
     });
   };
 
+  // Adds a new column to the form
   const addColumnHandler = () => {
-    setBoardColumns((prev) => [...prev, `New Column`]);
+    setNewBoardColumns((prev) => [...prev, `New Column`]);
   };
 
+  // Removes a column from the form
   const removeColumnHandler = (index: number) => {
-    setBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
+    setNewBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
   };
 
   return (
     <div className="flex flex-col gap-2">
-      {boardColumns.map((board, index) => (
+      {newBoardColumns.map((board, index) => (
         <div className="flex items-center gap-3" key={index}>
           <Input
             placeholder="Column Name"
-            id="boardColumns"
+            id="newBoardColumns"
             value={board}
             type="text"
             onChange={(e) => columnOnChangeHandler(e, index)}

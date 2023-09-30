@@ -42,7 +42,8 @@ const ColumnList = (props: Props) => {
     return (
       <div className="w-full h-full">
         {/* If there are no columns, display this component that displays add column*/}
-        {selectedBoardId === "" && columns?.length <= 0 ? (
+        {(selectedBoardId === "" && columns.length <= 0) ||
+        columns.length <= 0 ? (
           <div className="flex flex-col justify-center items-center gap-[2.5rem] h-full">
             <h2 className="text-grey-medium text-center max-w-[21.4375rem ]">
               There are no Columns. Create a new column to get started.

@@ -5,42 +5,43 @@ import { Button } from "../../ui/button";
 import axios from "axios";
 
 type Props = {
-  boardColumns: string[];
-  setBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
+  newBoardColumns: string[];
+  setNewBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
   columns: any;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedBoardId: any;
-  oldBoardColumns: string[];
   setOldBoardColumns: React.Dispatch<React.SetStateAction<any[]>>;
+  setDeleteColumnIdHolder: React.Dispatch<any>;
+  deleteColumnIdHolder: any;
 };
 
 const HasColumns = (props: Props) => {
   const {
-    boardColumns,
-    setBoardColumns,
+    newBoardColumns,
+    setNewBoardColumns,
     columns,
-    setUpdated,
-    selectedBoardId,
-    oldBoardColumns,
     setOldBoardColumns,
+    setDeleteColumnIdHolder,
+    deleteColumnIdHolder,
   } = props;
 
+  // Adds new column to the form state
   const addColumnHandler = () => {
-    setBoardColumns((prev) => [...prev, ""]);
+    setNewBoardColumns((prev) => [...prev, ""]);
   };
 
+  // Sets the new column title to the newBoardColumns state
   const columnOnChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { value } = event.target;
-    setBoardColumns((prev) => {
+    setNewBoardColumns((prev) => {
       const newBoardColumns = prev;
       newBoardColumns[index] = value;
       return newBoardColumns;
     });
   };
 
+  // Changes the old column title to a new title
   const oldColumnOnChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -54,73 +55,57 @@ const HasColumns = (props: Props) => {
     });
   };
 
+  // Removes a column from the form
   const removeColumnHandler = (index: number) => {
-    setBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
+    setNewBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
   };
 
-  const removerColumnFromApiHandler = async (
-    boardId: string,
-    columnId: string
-  ) => {
-    try {
-      const res = await axios
-        .delete(`/api/createBoard/${boardId}/${columnId}`)
-        .then((res) => res)
-        .finally(() => setUpdated(true));
-    } catch (err) {
-      console.log(err);
-    }
+  // Stores the selected column id to be deleted
+  const onIdBufferHandler = (id: string) => {
+    setDeleteColumnIdHolder((prev: any) => [...prev, id]);
   };
+
   return (
     <div className="flex flex-col items-center gap-3">
-      <label htmlFor="boardColumns" className="text-start w-full">
+      <label htmlFor="newBoardColumns" className="text-start w-full">
         Board Columns
       </label>
-      {columns.map((column: any, index: number) => {
-        const { title, id } = column;
-        // const columnOnChangeHandler = (
-        //   event: React.ChangeEvent<HTMLInputElement>,
-        //   id: string
-        // ) => {
-        //   const { value } = event.target;
-        //   const data = {
-        //     title: value,
-        //   };
+      {/* Maps over all the columns and filters the columns that have their Ids stored in the deleteColumnIdHolder*/}
+      {columns
+        .filter((column: any) => {
+          return !deleteColumnIdHolder.includes(column.id);
+        })
+        .map((column: any, index: number) => {
+          const { title, id } = column;
+          return (
+            <div className="flex items-center gap-3 w-full" key={index}>
+              <Input
+                id="newBoardColumns"
+                type="text"
+                onChange={(e) => oldColumnOnChangeHandler(e, index)}
+                placeholder={title}
+              />
 
-        //   console.log(data, "data");
-        //   axios
-        //     .put(`/api/createBoard/${selectedBoardId}/${id}`, data)
-        //     .then((res) => res)
-        //     .finally(() => setUpdated(true));
-        // };
-        return (
-          <div className="flex items-center gap-3 w-full" key={index}>
-            <Input
-              id="boardColumns"
-              type="text"
-              onChange={(e) => oldColumnOnChangeHandler(e, index)}
-              placeholder={title}
-            />
-
-            <div
-              onClick={() => removerColumnFromApiHandler(selectedBoardId, id)}
-            >
-              <CloseIcon className="text-grey-medium" />
+              <div onClick={() => onIdBufferHandler(id)}>
+                <CloseIcon className="text-grey-medium" />
+              </div>
+              {/* Maps over all the columns and filters the columns that have their Ids stored in the deleteColumnIdHolder*/}
             </div>
-          </div>
-        );
-      })}
-      {boardColumns.map((title, index) => (
+          );
+        })}
+      {newBoardColumns.map((title, index) => (
         <div className="flex items-center gap-3 w-full" key={index}>
+          {/* Maps over all the new columns the user wants to add*/}
           <Input
             placeholder="Add A New Column"
-            id="boardColumns"
+            id="newBoardColumns"
             type="text"
             onChange={(e) => columnOnChangeHandler(e, index)}
           />
           <div onClick={() => removeColumnHandler(index)}>
             <CloseIcon className="text-grey-medium" />
           </div>
+          {/* Maps over all the new columns the user wants to add*/}
         </div>
       ))}
       <div
