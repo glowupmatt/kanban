@@ -1,5 +1,4 @@
-"use client";
-import React, { use, useEffect, useState } from "react";
+import React from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddIcon from "@mui/icons-material/Add";
 import { deepPurple } from "@mui/material/colors";
@@ -28,11 +27,11 @@ const SideBar = (props: Props) => {
     setUpdated,
   } = props;
   return (
-    <div className="h-full w-full flex flex-col justify-between">
-      <div>
-        <h4 className="opacity-[.6] mb-[2.06rem] pl-[1.5rem]">
-          All Boards ({boardData.length})
-        </h4>
+    <div className="h-full w-full flex flex-col gap-[1rem]">
+      <h4 className="opacity-[.6] pl-[1.5rem]">
+        All Boards ({boardData.length})
+      </h4>
+      <div className="md:h-[10rem] lg:h-full overflow-scroll max-h-[20rem]">
         <div className="flex flex-col">
           {boardData.map((board: any) => {
             const { id } = board;
@@ -53,7 +52,7 @@ const SideBar = (props: Props) => {
                 className={classNames(
                   "flex w-full justify-center items-center gap-[.75rem] cursor-pointer h-[3rem] pl-[1.5rem]",
                   {
-                    "bg-purple-main rounded-r-full w-[70%]":
+                    "bg-purple-main rounded-r-full w-[70%] hover:bg-purple-hover transition ease-in-out duration-400":
                       selectedBoardId === id,
                   },
                   {
@@ -76,7 +75,7 @@ const SideBar = (props: Props) => {
             );
           })}
         </div>
-        <div className="flex justify-start items-center gap-[.75rem] pl-[1.5rem] mt-[1.8rem]">
+        <div className="flex justify-start items-center gap-[.75rem] pl-[1.5rem] h-[3rem]">
           <DashboardIcon />
           <div className="flex gap-1 justify-center items-center">
             <AddIcon sx={{ color: deepPurple[500] }} />
@@ -86,7 +85,7 @@ const SideBar = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 mb-[2rem]">
+      <div className="flex flex-col justify-center items-center gap-4 lg:h-auto lg:absolute left-0 bottom-[1rem] w-[16rem] md:overflow-scroll lg:overflow-visible">
         <LightDarkTheme />
         <Button
           className="text-grey-medium shadow-none p-0 self-start bg-transparent dark:hover:bg-white hover:bg-grey-light rounded-r-full rounded-l-none h-[3rem] w-[90%]"

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import classNames from "classNames";
@@ -7,14 +7,14 @@ import ColumnList from "@/components/kanbanBoard/ColumnList";
 import axios from "axios";
 import NavBody from "@/components/kanbanBoard/NavBody";
 import { BoardDataType } from "@/types/boardData";
-import SideBar from "@/components/kanbanBoard/SideBar";
-import Image from "next/image";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Button } from "@/components/ui/button";
+import VisibilityButton from "@/components/VisibilityButton";
+import SideBarContainer from "@/components/SideBarContainer";
+import { Draggable } from "@/components/DragableFile";
 
 type Props = {};
 
 const KanbanPage = (props: Props) => {
+  const boardRef = useRef(null);
   //Sets board menu open/close
   const [boardOpen, setBoardOpen] = useState<boolean>(false);
   //Redirection to login page if user is not authenticated
@@ -80,11 +80,13 @@ const KanbanPage = (props: Props) => {
   console.log(displayBoard, "displayBoard");
 
   return (
-    <div className="md:flex flex-row-reverse md:h-screen overflow-screen">
+    <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">
       {/*Main Body Container*/}
       <div
         className={classNames(
-          "h-screen justify-between items-center flex flex-col w-full relative bg-grey-light dark:bg-black-dark md:h-full"
+          "h-screen justify-between items-center flex flex-col w-full relative bg-grey-light dark:bg-black-dark md:h-full",
+          { "md:w-full overflow-scroll": !boardOpen },
+          { "md:w-full lg:w-full": boardOpen }
         )}
       >
         {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
@@ -101,72 +103,36 @@ const KanbanPage = (props: Props) => {
         {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
 
         {/* Column List & Task List*/}
-        <div
-          className={classNames(
-            "h-full flex justify-center items-center w-full overflow-scroll md:h-full md:relative",
-            {
-              "blur-md md:blur-none": boardOpen,
-            }
-          )}
-        >
-          <ColumnList
-            setUpdated={setUpdated}
-            selectedBoardId={selectedBoardId}
-            boardData={boardData}
-            displayBoard={displayBoard}
-          />
-          {/* prettier-ignore */}
-          <div className={classNames("absolute bottom-[2rem] left-0 ", { "hidden md:hidden": !boardOpen },{"hidden md:block" : boardOpen})}>
-            <div
-              className="relative rounded-r-full bg-purple-main h-[3rem] w-[3.5rem] flex justify-center items-center hover:bg-purple-hover cursor-pointer"
-              onClick={() => setBoardOpen((prev) => !prev)}
-            >
-              <VisibilityIcon className="text-white" />
-            </div>
+        <Draggable innerRef={boardRef} rootClass={"drag"}>
+          <div
+            className={classNames(
+              "h-full flex justify-center items-center w-full overflow-scroll md:h-full md:relative",
+              {
+                "blur-md md:blur-none": boardOpen,
+              }
+            )}
+          >
+            <ColumnList
+              setUpdated={setUpdated}
+              selectedBoardId={selectedBoardId}
+              boardData={boardData}
+              displayBoard={displayBoard}
+            />
           </div>
-        </div>
+        </Draggable>
         {/* Column List & Task List*/}
       </div>
-      <div
-        className={classNames(
-          "h-full border-r-solid border-r-2 dark:border-r-grey-dark dark:bg-grey-darkest min-w-[16.25rem] bg-white",
-          //prettier-ignore
-          {
-      "md:hidden hidden": boardOpen,
-    },
-          {
-            "hidden md:block": !boardOpen,
-          }
-        )}
-      >
-        <div className={classNames("flex flex-col gap-[3.3rem] h-full")}>
-          <div className="w-full flex justify-center p-[1rem] min-h-[4.4rem]">
-            <Image
-              src="/KanbanFiles/kanabDesktopLogo.svg"
-              alt="Logo"
-              width={100}
-              height={100}
-              className="min-w-[9.533rem] min-h-[1.5765rem] hidden dark:block"
-            />
-            <Image
-              src="/KanbanFiles/lightModeKanbanLogo.svg"
-              alt="Logo"
-              width={100}
-              height={100}
-              className="min-w-[9.533rem] min-h-[1.5765rem] hidden md:block dark:hidden"
-            />
-          </div>
-          <div className={classNames("w-full h-full hidden md:block")}>
-            <SideBar
-              setBoardOpen={setBoardOpen}
-              boardData={boardData}
-              setSelectedBoardId={setSelectedBoardId}
-              selectedBoardId={selectedBoardId}
-              setUpdated={setUpdated}
-            />
-          </div>
-        </div>
-      </div>
+      {/*Button to open & close desktop nav view*/}
+      <VisibilityButton boardOpen={boardOpen} setBoardOpen={setBoardOpen} />
+      {/*Side Nav For Desktop*/}
+      <SideBarContainer
+        boardOpen={boardOpen}
+        setBoardOpen={setBoardOpen}
+        boardData={boardData}
+        setSelectedBoardId={setSelectedBoardId}
+        selectedBoardId={selectedBoardId}
+        setUpdated={setUpdated}
+      />
     </div>
   );
 };

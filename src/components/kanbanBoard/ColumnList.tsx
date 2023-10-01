@@ -7,6 +7,7 @@ import TodoList from "./columnDisplay/TodoList";
 import CreateBoard from "./CreateBoard";
 import { BoardDataType } from "@/types/boardData";
 import { ColumnsType } from "@/types/columnsType";
+import { Draggable } from "../DragableFile";
 
 type Props = {
   selectedBoardId: string;

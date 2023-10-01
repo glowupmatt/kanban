@@ -11,7 +11,7 @@ const TemplateLayout = (props: Props) => {
   return (
     <AuthContext>
       <main>
-        <div className="w-full">{children}</div>
+        <div className="flex justify-center items-center">{children}</div>
       </main>
     </AuthContext>
   );
