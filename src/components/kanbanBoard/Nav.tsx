@@ -31,23 +31,37 @@ const Nav = (props: Props) => {
         alt="Logo"
         width={100}
         height={100}
-        className="w-[1.5rem] h-[1.5625rem]"
+        className="w-[1.5rem] h-[1.5625rem] md:hidden"
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-[.6rem]">
           {(displayBoard[0]?.title.length > 0 && selectedBoardId) ||
           displayBoard.length < 0 ? (
-            <h2 onClick={() => setBoardOpen((prev) => !prev)}>
-              {displayBoard[0].title}
-            </h2>
+            <div>
+              <h2 className="hidden md:block"> {displayBoard[0].title}</h2>
+              <h2
+                onClick={() => setBoardOpen((prev) => !prev)}
+                className="md:hidden"
+              >
+                {displayBoard[0].title}
+              </h2>
+            </div>
           ) : (
-            <h2 onClick={() => setBoardOpen((prev) => !prev)}>Select Board</h2>
+            <div>
+              <h2 className="hidden md:block">Select Board</h2>
+              <h2
+                onClick={() => setBoardOpen((prev) => !prev)}
+                className="md:hidden"
+              >
+                Select Board
+              </h2>
+            </div>
           )}
 
           <div
             onClick={() => setBoardOpen((prev) => !prev)}
             className={classNames(
-              "h-full",
+              "h-full md:hidden",
               {
                 "rotate-180 transform transition duration-500 ease-in-out":
                   boardOpen,

@@ -33,7 +33,7 @@ const NavBody = (props: Props) => {
   return (
     <div className="w-full flex justify-center items-center">
       {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
-      <div className={classNames("w-full")}>
+      <div className={classNames("w-full flex")}>
         <Nav
           setBoardOpen={setBoardOpen}
           boardOpen={boardOpen}

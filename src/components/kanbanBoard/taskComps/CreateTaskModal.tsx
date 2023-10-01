@@ -19,8 +19,9 @@ const CreateTaskModal = (props: Props) => {
   return (
     <div>
       <Dialog>
-        <DialogTrigger className="p-4 bg-purple-main max-w-[3rem] max-h-[2rem] flex justify-center items-center rounded-full hover:bg-purple-hover">
+        <DialogTrigger className="p-4 bg-purple-main max-w-[3rem] max-h-[2rem] flex justify-center items-center rounded-full hover:bg-purple-hover md:max-w-[10.25rem] md:max-h-[3rem]">
           <AddIcon sx={{ color: grey[50] }} />
+          <p className="font-[700] hidden md:block text-white">Add New Task</p>
         </DialogTrigger>
         <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full">
           <DialogHeader>

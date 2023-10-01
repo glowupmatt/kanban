@@ -26,7 +26,7 @@ const BoardMenu = (props: Props) => {
   } = props;
 
   return (
-    <div className="absolute top-[5rem] z-10 max-w-full w-[17rem] bg-white dark:bg-grey-dark gap-4 rounded-lg min-h-[15rem] justify-between flex flex-col items-start">
+    <div className="absolute top-[5rem] z-10 max-w-full w-[17rem] bg-white dark:bg-grey-dark gap-4 rounded-lg min-h-[15rem] justify-between flex flex-col items-start md:hidden">
       <h4 className="opacity-[.6] px-[1.5rem] pt-[1.5rem]">
         All Boards ({boardData.length})
       </h4>
