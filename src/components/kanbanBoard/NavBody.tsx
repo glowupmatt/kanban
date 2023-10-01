@@ -4,14 +4,15 @@ import Nav from "./Nav";
 import BoardMenu from "./BoardMenu";
 import EditBoardModal from "./editBoard/EditBoardModal";
 import classNames from "classNames";
+import { BoardDataType } from "@/types/boardData";
 
 type Props = {
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
   boardOpen: boolean;
-  selectedBoardId: any;
+  selectedBoardId: string;
   updated: boolean;
   setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: any;
+  boardData: BoardDataType[];
   setSelectedBoardId: React.Dispatch<React.SetStateAction<any>>;
   displayBoard: any;
 };

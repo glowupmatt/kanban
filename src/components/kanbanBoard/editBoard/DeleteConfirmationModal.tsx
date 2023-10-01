@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 
 type Props = {
-  selectedBoardId: any;
-  setSelectedBoardId: React.Dispatch<React.SetStateAction<any>>;
+  selectedBoardId: string;
+  setSelectedBoardId: React.Dispatch<React.SetStateAction<string>>;
   setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -33,7 +33,7 @@ const DeleteConfirmationModal = (props: Props) => {
           res;
         })
         .finally(() => {
-          setSelectedBoardId({} as any);
+          setSelectedBoardId("");
           setUpdated(true);
           setEditBoardToggle(false);
         });
@@ -46,16 +46,12 @@ const DeleteConfirmationModal = (props: Props) => {
       <DialogTrigger className="text-red-main hover:text-red-hover">
         Delete Board
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full">
         <DialogHeader>
           <DialogTitle>Delete this board?</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete the{" "}
-            <span className="text-red-main font-bold">
-              {selectedBoardId?.title}
-            </span>{" "}
-            board? This action will remove all columns and tasks and cannot be
-            reversed.
+            Are you sure you want to delete the board? This action will remove
+            all columns and tasks and cannot be reversed.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">

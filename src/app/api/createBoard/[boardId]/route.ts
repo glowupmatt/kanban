@@ -53,14 +53,17 @@ export async function PUT(
       data: {
         title,
         userId: currentUser.id,
-        columns: {
-          createMany: {
-            data: columns.map((title: string) => ({
-              title,
-              userId: currentUser.id,
-            })),
-          },
-        },
+        columns:
+          columns.length > 0
+            ? {
+                createMany: {
+                  data: columns.map((title: string) => ({
+                    title,
+                    userId: currentUser.id,
+                  })),
+                },
+              }
+            : undefined,
       },
     });
 

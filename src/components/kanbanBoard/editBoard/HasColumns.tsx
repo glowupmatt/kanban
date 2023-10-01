@@ -1,16 +1,18 @@
 import React from "react";
 import { Input } from "../../ui/input";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button } from "../../ui/button";
-import axios from "axios";
+import { BoardDataType } from "@/types/boardData";
+import { ColumnsType } from "@/types/columnsType";
 
 type Props = {
   newBoardColumns: string[];
   setNewBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
-  columns: any;
-  setOldBoardColumns: React.Dispatch<React.SetStateAction<any[]>>;
-  setDeleteColumnIdHolder: React.Dispatch<any>;
-  deleteColumnIdHolder: any;
+  columns: ColumnsType[];
+  setOldBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
+  setDeleteColumnIdHolder: React.Dispatch<React.SetStateAction<string[]>>;
+  deleteColumnIdHolder: string[];
+  updated: boolean;
+  setUpdatedState: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const HasColumns = (props: Props) => {
@@ -21,6 +23,8 @@ const HasColumns = (props: Props) => {
     setOldBoardColumns,
     setDeleteColumnIdHolder,
     deleteColumnIdHolder,
+    updated,
+    setUpdatedState,
   } = props;
 
   // Adds new column to the form state
@@ -50,9 +54,9 @@ const HasColumns = (props: Props) => {
     setOldBoardColumns((prev) => {
       const newBoardColumns = prev;
       newBoardColumns[index] = value;
-      console.log(newBoardColumns);
       return newBoardColumns;
     });
+    setUpdatedState(true);
   };
 
   // Removes a column from the form
@@ -62,7 +66,7 @@ const HasColumns = (props: Props) => {
 
   // Stores the selected column id to be deleted
   const onIdBufferHandler = (id: string) => {
-    setDeleteColumnIdHolder((prev: any) => [...prev, id]);
+    setDeleteColumnIdHolder((prev: string[]) => [...prev, id]);
   };
 
   return (
@@ -72,10 +76,10 @@ const HasColumns = (props: Props) => {
       </label>
       {/* Maps over all the columns and filters the columns that have their Ids stored in the deleteColumnIdHolder*/}
       {columns
-        .filter((column: any) => {
+        .filter((column: ColumnsType) => {
           return !deleteColumnIdHolder.includes(column.id);
         })
-        .map((column: any, index: number) => {
+        .map((column: ColumnsType, index: number) => {
           const { title, id } = column;
           return (
             <div className="flex items-center gap-3 w-full" key={index}>
@@ -84,6 +88,7 @@ const HasColumns = (props: Props) => {
                 type="text"
                 onChange={(e) => oldColumnOnChangeHandler(e, index)}
                 placeholder={title}
+                className="dark:border-grey-light border-grey-darkest border-solid border-2"
               />
 
               <div onClick={() => onIdBufferHandler(id)}>
@@ -93,7 +98,7 @@ const HasColumns = (props: Props) => {
             </div>
           );
         })}
-      {newBoardColumns.map((title, index) => (
+      {newBoardColumns.map((_, index) => (
         <div className="flex items-center gap-3 w-full" key={index}>
           {/* Maps over all the new columns the user wants to add*/}
           <Input
@@ -101,6 +106,7 @@ const HasColumns = (props: Props) => {
             id="newBoardColumns"
             type="text"
             onChange={(e) => columnOnChangeHandler(e, index)}
+            className="dark:border-grey-light border-grey-darkest border-solid border-2"
           />
           <div onClick={() => removeColumnHandler(index)}>
             <CloseIcon className="text-grey-medium" />
@@ -112,7 +118,7 @@ const HasColumns = (props: Props) => {
         onClick={addColumnHandler}
         className="flex text-purple-main w-full dark:bg-white bg-grey-light rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 h-[2.5rem]"
       >
-        <p>+ Add New Column</p>
+        <p className="font-[700]">+ Add New Column</p>
       </div>
     </div>
   );

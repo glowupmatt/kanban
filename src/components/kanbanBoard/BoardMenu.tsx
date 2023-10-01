@@ -7,12 +7,12 @@ import LightDarkTheme from "../LightDarkTheme";
 import CreateBoard from "./CreateBoard";
 import axios from "axios";
 import classNames from "classNames";
-
+import { BoardDataType } from "@/types/boardData";
 type Props = {
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: any;
-  setSelectedBoardId: React.Dispatch<any>;
-  selectedBoardId: any;
+  boardData: BoardDataType[];
+  setSelectedBoardId: React.Dispatch<string>;
+  selectedBoardId: string;
   setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

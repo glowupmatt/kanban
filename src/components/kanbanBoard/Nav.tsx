@@ -2,17 +2,17 @@ import React from "react";
 import Image from "next/image";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { deepPurple, grey } from "@mui/material/colors";
-import AddIcon from "@mui/icons-material/Add";
-import { Button } from "@/components/ui/button";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import classNames from "classNames";
+import { BoardDataType } from "@/types/boardData";
+import CreateTaskModal from "./taskComps/CreateTaskModal";
 
 type Props = {
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
   boardOpen: boolean;
-  selectedBoardId: any;
+  selectedBoardId: string;
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  displayBoard: any;
+  displayBoard: BoardDataType[];
 };
 
 const Nav = (props: Props) => {
@@ -23,7 +23,7 @@ const Nav = (props: Props) => {
     setEditBoardToggle,
     displayBoard,
   } = props;
-
+  console.log(displayBoard, "displayBoard");
   return (
     <nav className="flex justify-evenly items-center gap-4 p-4 w-full bg-white dark:bg-grey-darkest">
       <Image
@@ -35,7 +35,8 @@ const Nav = (props: Props) => {
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-[.6rem]">
-          {displayBoard.length >= 0 && selectedBoardId ? (
+          {(displayBoard[0]?.title.length > 0 && selectedBoardId) ||
+          displayBoard.length < 0 ? (
             <h2 onClick={() => setBoardOpen((prev) => !prev)}>
               {displayBoard[0].title}
             </h2>
@@ -61,9 +62,7 @@ const Nav = (props: Props) => {
           </div>
         </div>
         <div className="flex gap-[.5rem] justify-center items-center">
-          <Button className="p-4 bg-purple-main max-w-[3rem] max-h-[2rem] flex justify-center items-center rounded-full hover:bg-purple-hover">
-            <AddIcon sx={{ color: grey[50] }} />
-          </Button>
+          <CreateTaskModal />
           <div onClick={() => setEditBoardToggle((prev) => !prev)}>
             <MoreVertIcon sx={{ color: deepPurple[`A100`] }} />
           </div>

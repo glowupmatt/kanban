@@ -5,25 +5,30 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateColumn from "./CreateColumn";
 import TodoList from "./columnDisplay/TodoList";
 import CreateBoard from "./CreateBoard";
+import { BoardDataType } from "@/types/boardData";
+import { ColumnsType } from "@/types/columnsType";
 
 type Props = {
-  selectedBoardId: any;
+  selectedBoardId: string;
   setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: any;
-  displayBoard: any;
+  boardData: BoardDataType[];
+  displayBoard: BoardDataType[];
 };
 
 const ColumnList = (props: Props) => {
   const { selectedBoardId, setUpdated, boardData, displayBoard } = props;
 
-  let columns;
+  let columns: ColumnsType[] = [];
   if (selectedBoardId === "") {
     columns = [];
   } else {
     columns = displayBoard[0]?.columns;
   }
-
-  if (selectedBoardId === "" || !selectedBoardId) {
+  if (
+    selectedBoardId === "" ||
+    !selectedBoardId ||
+    Object.keys(selectedBoardId).length <= 0
+  ) {
     //Check if there is no selectedBoardId display this a createBoard component
     return (
       <div className="h-screen flex  justify-center items-center">
@@ -42,8 +47,8 @@ const ColumnList = (props: Props) => {
     return (
       <div className="w-full h-full">
         {/* If there are no columns, display this component that displays add column*/}
-        {(selectedBoardId === "" && columns.length <= 0) ||
-        columns.length <= 0 ? (
+        {(selectedBoardId === "" && columns?.length <= 0) ||
+        columns?.length <= 0 ? (
           <div className="flex flex-col justify-center items-center gap-[2.5rem] h-full">
             <h2 className="text-grey-medium text-center max-w-[21.4375rem ]">
               There are no Columns. Create a new column to get started.

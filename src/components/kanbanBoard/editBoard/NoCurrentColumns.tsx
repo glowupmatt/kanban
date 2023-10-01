@@ -44,6 +44,7 @@ const NoCurrentColumns = (props: Props) => {
             value={board}
             type="text"
             onChange={(e) => columnOnChangeHandler(e, index)}
+            className="dark:border-grey-light border-grey-darkest border-solid border-2"
           />
           <div onClick={() => removeColumnHandler(index)}>
             <CloseIcon className="text-grey-medium" />

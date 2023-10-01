@@ -65,42 +65,53 @@ const CreateBoard = (props: Props) => {
       <DialogTrigger>
         <h3>Create Board</h3>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full">
         <DialogHeader>
-          <DialogTitle>Add New Board</DialogTitle>
+          <DialogTitle className="text-start">Add New Board</DialogTitle>
         </DialogHeader>
         <form className="flex flex-col gap-[1.5rem]" onSubmit={onSubmitHandler}>
           <div>
-            <label htmlFor="boardName">Board Name</label>
+            <label htmlFor="boardName" className="text-[0.75rem] font-[700]">
+              Board Name
+            </label>
             <Input
               placeholder="e.g. Web Design"
               id="boardName"
               type="text"
               value={boardName}
               onChange={boardNameOnChangeHandler}
+              className="dark:border-grey-light border-grey-darkest border-solid border-2"
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="newBoardColumns">Board Columns</label>
-            {newBoardColumns.map((board, index) => (
-              <div className="flex items-center gap-3" key={index}>
-                <Input
-                  placeholder="Column Name"
-                  id="newBoardColumns"
-                  type="text"
-                  value={board}
-                  onChange={(e) => columnOnChangeHandler(e, index)}
-                />
-                <button onClick={() => removeColumnHandler(index)}>
-                  <CloseIcon className="text-grey-medium" />
-                </button>
-              </div>
-            ))}
+          <div className="flex flex-col gap-4">
+            <div>
+              <label
+                htmlFor="newBoardColumns"
+                className="text-[0.75rem] font-[700]"
+              >
+                Board Columns
+              </label>
+              {newBoardColumns.map((board, index) => (
+                <div className="flex items-center gap-3 mb-3" key={index}>
+                  <Input
+                    placeholder="Column Name"
+                    id="newBoardColumns"
+                    type="text"
+                    value={board}
+                    onChange={(e) => columnOnChangeHandler(e, index)}
+                    className="dark:border-grey-light border-grey-darkest border-solid border-2"
+                  />
+                  <button onClick={() => removeColumnHandler(index)}>
+                    <CloseIcon className="text-grey-medium" />
+                  </button>
+                </div>
+              ))}
+            </div>
             <Button
               onClick={addColumnHandler}
               className="flex text-purple-main w-full dark:bg-white bg-grey-light rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1"
             >
-              <p>+ Add New Column</p>
+              <p className="font-[700]">+ Add New Column</p>
             </Button>
           </div>
           <Button
@@ -108,7 +119,7 @@ const CreateBoard = (props: Props) => {
             className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1"
           >
             <DialogClose>
-              <p>Create New Board</p>
+              <p className="font-[700]">Create New Board</p>
             </DialogClose>
           </Button>
         </form>

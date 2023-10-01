@@ -6,12 +6,13 @@ import classNames from "classNames";
 import ColumnList from "@/components/kanbanBoard/ColumnList";
 import axios from "axios";
 import NavBody from "@/components/kanbanBoard/NavBody";
+import { BoardDataType } from "@/types/boardData";
 
 type Props = {};
 
 const KanbanPage = (props: Props) => {
   //Sets board menu open/close
-  const [boardOpen, setBoardOpen] = useState(false);
+  const [boardOpen, setBoardOpen] = useState<boolean>(false);
   //Redirection to login page if user is not authenticated
   const session = useSession();
   const router = useRouter();
@@ -21,9 +22,28 @@ const KanbanPage = (props: Props) => {
     }
   }, [session, router]);
   //Board data
-  const [boardData, setBoardData] = useState([]);
-  const [selectedBoardId, setSelectedBoardId] = useState("");
-  const [updated, setUpdated] = useState(true);
+  const [boardData, setBoardData] = useState<BoardDataType[]>([]);
+  const [selectedBoardId, setSelectedBoardId] = useState<string>("");
+  const [updated, setUpdated] = useState<boolean>(true);
+  const [displayBoard, setDisplayBoard] = useState<BoardDataType[]>([
+    {
+      id: "",
+      title: "",
+      createdAt: "",
+      updatedAt: "",
+      userId: "",
+      columns: [
+        {
+          id: "",
+          title: "",
+          createdAt: "",
+          UpdatedAt: "",
+          userId: "",
+          boardId: "",
+        },
+      ],
+    },
+  ]);
 
   //Gets board data from database & updates when board is updated
   useEffect(() => {
@@ -43,11 +63,18 @@ const KanbanPage = (props: Props) => {
     }
   }, [updated]);
 
-  const displayBoard = boardData.filter((board: any) => {
-    return board.id === selectedBoardId;
-  });
+  //Sets the selected board data to be displayed
+  useEffect(() => {
+    setDisplayBoard(() => {
+      const filteredBoardData = boardData.filter(
+        (board) => board.id === selectedBoardId
+      );
+      return filteredBoardData;
+    });
+  }, [boardData, selectedBoardId]);
 
   console.log(displayBoard, "displayBoard");
+
   return (
     //Main Body Container
     <div

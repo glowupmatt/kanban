@@ -14,29 +14,37 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import NoCurrentColumns from "./editBoard/NoCurrentColumns";
 import HasColumns from "./editBoard/HasColumns";
+import { BoardDataType } from "@/types/boardData";
+import { ColumnsType } from "@/types/columnsType";
 
 type Props = {
-  selectedBoardId: any;
+  selectedBoardId: string;
   setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: any;
-  displayBoard: any;
+  boardData: BoardDataType[];
+  displayBoard: BoardDataType[];
 };
 
 const CreateColumn = (props: Props) => {
   const { selectedBoardId, setUpdated, boardData, displayBoard } = props;
   // selected board data that is displayed for user
-  const { title, columns, id } = displayBoard[0];
-  const [boardTitle, setBoardTitle] = useState(`${title}`);
-  // Map through all the columns and set the title to the oldnewBoardColumns state
-  const [oldBoardColumns, setOldBoardColumns] = useState([
-    ...columns.map((column: any) => {
+  const title = displayBoard[0]?.title;
+  const columns = displayBoard[0]?.columns;
+  const id = displayBoard[0]?.id;
+  const [boardTitle, setBoardTitle] = useState<string>(`${title}`);
+  // Map through all the columns and set the title to the oldBoardColumns state
+  const [oldBoardColumns, setOldBoardColumns] = useState<string[]>([
+    ...columns?.map((column: ColumnsType) => {
       return column.title;
     }),
   ]);
+  const [updated, setUpdatedState] = useState<boolean>(false);
+
   // Set the new columns to the newBoardColumns state
   const [newBoardColumns, setNewBoardColumns] = useState(["Add A New Column"]);
   // Stores the selected column id to be deleted
-  const [deleteColumnIdHolder, setDeleteColumnIdHolder] = useState([] as any);
+  const [deleteColumnIdHolder, setDeleteColumnIdHolder] = useState<string[]>(
+    []
+  );
   //changed the title of the board
   const boardNameOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBoardTitle(e.currentTarget.value);
@@ -45,21 +53,32 @@ const CreateColumn = (props: Props) => {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = columns.map((column: any, index: number) => {
-        const editOldColumns = async () => {
-          const data = {
-            title: oldBoardColumns[index],
-          };
-
-          console.log(title, "columnTitle");
-          const res = await axios
-            .put(`/api/createBoard/${id}/${column.id}`, { ...data })
-            .then((res) => res)
-            .finally(() => setUpdated(true));
-          console.log(res, "res2");
+      if (boardTitle !== title) {
+        const data = {
+          title: boardTitle === "" ? title : boardTitle,
+          columns: newBoardColumns.map((title) => title),
         };
-        editOldColumns();
-      });
+        const res = await axios
+          .put(`/api/createBoard/${id}`, {
+            ...data,
+          })
+          .then((res) => res)
+          .finally(() => setUpdated(true));
+      }
+      if (updated === true) {
+        const res = columns.map((column: any, index: number) => {
+          const editOldColumns = async () => {
+            const data = {
+              title: oldBoardColumns[index],
+            };
+            const res = await axios
+              .put(`/api/createBoard/${id}/${column.id}`, { ...data })
+              .then((res) => res)
+              .finally(() => setUpdated(true));
+          };
+          editOldColumns();
+        });
+      }
       if (newBoardColumns.length > 0) {
         const data = {
           title: boardTitle === "" ? title : boardTitle,
@@ -79,7 +98,6 @@ const CreateColumn = (props: Props) => {
             .delete(`/api/createBoard/${boardId}/${columnId}`)
             .then((res) => res)
             .finally(() => setUpdated(true));
-          console.log(res);
         };
         deleteColumnIdHolder.map((id: string) => {
           deleteFunction(selectedBoardId, id);
@@ -95,9 +113,9 @@ const CreateColumn = (props: Props) => {
       <DialogTrigger>
         <h3>Add Columns</h3>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full">
         <DialogHeader>
-          <DialogTitle>Edit Board</DialogTitle>
+          <DialogTitle className="text-start">Edit Board</DialogTitle>
         </DialogHeader>
         <div>
           {/* check for column if none it will display create column button */}
@@ -108,15 +126,21 @@ const CreateColumn = (props: Props) => {
                 onSubmit={onSubmitHandler}
               >
                 <div>
-                  <label htmlFor="boardName">Board Name</label>
+                  <label
+                    htmlFor="boardName"
+                    className="text-[0.75rem] font-[700]"
+                  >
+                    Board Name
+                  </label>
                   <Input
                     id="boardName"
                     placeholder={boardTitle}
                     type="text"
                     value={boardTitle}
                     onChange={boardNameOnChangeHandler}
+                    className="dark:border-grey-light border-grey-darkest border-solid border-2"
                   />
-                  <p>Board Columns</p>
+                  <p className="font-[700]">Board Columns</p>
                   <NoCurrentColumns
                     newBoardColumns={newBoardColumns}
                     setNewBoardColumns={setNewBoardColumns}
@@ -127,7 +151,7 @@ const CreateColumn = (props: Props) => {
                   className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1"
                 >
                   <DialogClose>
-                    <p>Save Changes</p>
+                    <p className="font-[700]">Save Changes</p>
                   </DialogClose>
                 </Button>
               </form>
@@ -147,6 +171,7 @@ const CreateColumn = (props: Props) => {
                     value={boardTitle}
                     type="text"
                     onChange={boardNameOnChangeHandler}
+                    className="dark:border-grey-light border-grey-darkest border-solid border-2"
                   />
                 </div>
                 <HasColumns
@@ -156,13 +181,15 @@ const CreateColumn = (props: Props) => {
                   setOldBoardColumns={setOldBoardColumns}
                   deleteColumnIdHolder={deleteColumnIdHolder}
                   setDeleteColumnIdHolder={setDeleteColumnIdHolder}
+                  updated={updated}
+                  setUpdatedState={setUpdatedState}
                 />
                 <Button
                   type="submit"
                   className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 self-center w-full"
                 >
                   <DialogClose>
-                    <p>Save Changes</p>
+                    <p className="font-[700]">Save Changes</p>
                   </DialogClose>
                 </Button>
               </form>
