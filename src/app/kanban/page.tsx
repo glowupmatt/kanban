@@ -7,8 +7,8 @@ import ColumnList from "@/components/kanbanBoard/ColumnList";
 import axios from "axios";
 import NavBody from "@/components/kanbanBoard/NavBody";
 import { BoardDataType } from "@/types/boardData";
-import VisibilityButton from "@/components/VisibilityButton";
-import SideBarContainer from "@/components/SideBarContainer";
+import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
+import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
 import { Draggable } from "@/components/DragableFile";
 
 type Props = {};

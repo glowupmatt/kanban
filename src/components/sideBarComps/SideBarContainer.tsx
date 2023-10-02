@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classNames";
 import Image from "next/image";
-import SideBar from "./kanbanBoard/SideBar";
+import SideBar from "../kanbanBoard/SideBar";
 import { BoardDataType } from "@/types/boardData";
 
 type Props = {
@@ -34,8 +34,8 @@ const SideBarContainer = (props: Props) => {
         }
       )}
     >
-      <div className={classNames("flex flex-col lg:gap-[3.3rem] h-full")}>
-        <div className="w-full flex justify-center p-[1rem] min-h-[4.4rem]">
+      <div className={classNames("flex flex-col  h-full gap-3")}>
+        <div className="w-full flex justify-center p-[1rem] min-h-[5.1rem] border-b-2 border-b-solid dark:border-b-grey-dark">
           <Image
             src="/KanbanFiles/kanabDesktopLogo.svg"
             alt="Logo"
@@ -51,7 +51,12 @@ const SideBarContainer = (props: Props) => {
             className="min-w-[9.533rem] min-h-[1.5765rem] hidden md:block dark:hidden"
           />
         </div>
-        <div className={classNames("w-full h-full hidden md:block")}>
+        <div
+          className={classNames("w-full h-full hidden md:flex flex-col gap-3")}
+        >
+          <h4 className="opacity-[.6] pl-[1.5rem]">
+            All Boards ({boardData.length})
+          </h4>
           <SideBar
             setBoardOpen={setBoardOpen}
             boardData={boardData}
