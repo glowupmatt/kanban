@@ -1,22 +1,34 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import classNames from "classNames";
 import ColumnList from "@/components/kanbanBoard/ColumnList";
 import axios from "axios";
 import NavBody from "@/components/kanbanBoard/NavBody";
-import { BoardDataType } from "@/types/boardData";
 import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
 import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
 import { Draggable } from "@/components/DragableFile";
+import { DataContext } from "@/context/AppContext";
 
 type Props = {};
 
 const KanbanPage = (props: Props) => {
+  const {
+    boardData,
+    displayBoard,
+    selectedBoardId,
+    setBoardData,
+    setDisplayBoard,
+    setSelectedBoardId,
+    setUpdated,
+    updated,
+    setBoardOpen,
+    boardOpen,
+  } = useContext(DataContext);
+
   const boardRef = useRef(null);
-  //Sets board menu open/close
-  const [boardOpen, setBoardOpen] = useState<boolean>(false);
+
   //Redirection to login page if user is not authenticated
   const session = useSession();
   const router = useRouter();
@@ -25,30 +37,6 @@ const KanbanPage = (props: Props) => {
       router.push("/");
     }
   }, [session, router]);
-  //Board data
-  const [boardData, setBoardData] = useState<BoardDataType[]>([]);
-  const [selectedBoardId, setSelectedBoardId] = useState<string>("");
-  const [updated, setUpdated] = useState<boolean>(true);
-  const [displayBoard, setDisplayBoard] = useState<BoardDataType[]>([
-    {
-      id: "",
-      title: "",
-      createdAt: "",
-      updatedAt: "",
-      userId: "",
-      columns: [
-        {
-          id: "",
-          title: "",
-          createdAt: "",
-          UpdatedAt: "",
-          userId: "",
-          boardId: "",
-        },
-      ],
-    },
-  ]);
-
   //Gets board data from database & updates when board is updated
   useEffect(() => {
     const getBoardData = async () => {
@@ -65,7 +53,7 @@ const KanbanPage = (props: Props) => {
     if (updated) {
       getBoardData().finally(() => setUpdated(false));
     }
-  }, [updated]);
+  }, [updated, setUpdated, setBoardData]);
 
   //Sets the selected board data to be displayed
   useEffect(() => {
@@ -75,9 +63,7 @@ const KanbanPage = (props: Props) => {
       );
       return filteredBoardData;
     });
-  }, [boardData, selectedBoardId]);
-
-  console.log(displayBoard, "displayBoard");
+  }, [boardData, selectedBoardId, setDisplayBoard]);
 
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">

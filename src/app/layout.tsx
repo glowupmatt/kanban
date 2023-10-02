@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import TemplateLayout from "@/components/TemplateLayout";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import AppContext from "@/context/AppContext";
 
 export const metadata: Metadata = {
   title: "Kanban",
@@ -22,7 +23,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TemplateLayout>{children}</TemplateLayout>
+          <AppContext>
+            <TemplateLayout>{children}</TemplateLayout>
+          </AppContext>
         </ThemeProvider>
       </body>
     </html>

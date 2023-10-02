@@ -23,7 +23,7 @@ const Nav = (props: Props) => {
     setEditBoardToggle,
     displayBoard,
   } = props;
-  console.log(displayBoard, "displayBoard");
+
   return (
     <nav className="flex justify-evenly items-center gap-4 p-4 w-full bg-white dark:bg-grey-darkest">
       <Image
