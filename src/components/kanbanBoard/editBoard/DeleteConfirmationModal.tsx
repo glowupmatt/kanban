@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,21 +11,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { DataContext } from "@/context/AppContext";
 
 type Props = {
-  selectedBoardId: string;
-  setSelectedBoardId: React.Dispatch<React.SetStateAction<string>>;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DeleteConfirmationModal = (props: Props) => {
-  const {
-    selectedBoardId,
-    setSelectedBoardId,
-    setUpdated,
-    setEditBoardToggle,
-  } = props;
+  const { setEditBoardToggle } = props;
+  const { selectedBoardId, setSelectedBoardId, setUpdated } =
+    useContext(DataContext);
+
   const deleteBoard = async () => {
     try {
       const res = await axios

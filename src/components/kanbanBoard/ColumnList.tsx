@@ -1,23 +1,14 @@
 "use client";
-import React from "react";
-import AddIcon from "@mui/icons-material/Add";
-import CreateColumn from "./CreateColumn";
-import TodoList from "./columnDisplay/TodoList";
-import CreateBoard from "./CreateBoard";
-import { BoardDataType } from "@/types/boardData";
+import React, { useContext } from "react";
 import { ColumnsType } from "@/types/columnsType";
 import NoColumnsDisplay from "./columnDisplay/NoColumnsDisplay";
 import ContainsColumnsDisplay from "./columnDisplay/ContainsColumnsDisplay";
+import { DataContext } from "@/context/AppContext";
 
-type Props = {
-  selectedBoardId: string;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: BoardDataType[];
-  displayBoard: BoardDataType[];
-};
+type Props = {};
 
 const ColumnList = (props: Props) => {
-  const { selectedBoardId, setUpdated, boardData, displayBoard } = props;
+  const { displayBoard, selectedBoardId, setUpdated } = useContext(DataContext);
 
   let columns: ColumnsType[] = [];
   if (selectedBoardId === "") {
@@ -30,16 +21,10 @@ const ColumnList = (props: Props) => {
       {selectedBoardId === "" ||
       !selectedBoardId ||
       Object.keys(selectedBoardId).length <= 0 ? (
-        //Check if there is no selectedBoardId display this a createBoard component
-        <NoColumnsDisplay setUpdated={setUpdated} />
+        //Check if there is no selectedBoardId. This will display a createBoard component
+        <NoColumnsDisplay />
       ) : (
-        <ContainsColumnsDisplay
-          boardData={boardData}
-          selectedBoardId={selectedBoardId}
-          columns={columns}
-          setUpdated={setUpdated}
-          displayBoard={displayBoard}
-        />
+        <ContainsColumnsDisplay columns={columns} />
       )}
     </div>
   );

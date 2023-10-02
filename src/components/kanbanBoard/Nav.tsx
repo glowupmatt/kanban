@@ -1,28 +1,21 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import Image from "next/image";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { deepPurple, grey } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import classNames from "classNames";
-import { BoardDataType } from "@/types/boardData";
 import CreateTaskModal from "./taskComps/CreateTaskModal";
+import { DataContext } from "@/context/AppContext";
 
 type Props = {
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  boardOpen: boolean;
-  selectedBoardId: string;
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  displayBoard: BoardDataType[];
 };
 
 const Nav = (props: Props) => {
-  const {
-    setBoardOpen,
-    boardOpen,
-    selectedBoardId,
-    setEditBoardToggle,
-    displayBoard,
-  } = props;
+  const { setEditBoardToggle } = props;
+  const { displayBoard, selectedBoardId, setBoardOpen, boardOpen } =
+    useContext(DataContext);
 
   return (
     <nav className="flex justify-evenly items-center gap-4 p-4 w-full bg-white dark:bg-grey-darkest">
@@ -77,7 +70,10 @@ const Nav = (props: Props) => {
         </div>
         <div className="flex gap-[.5rem] justify-center items-center">
           <CreateTaskModal />
-          <div onClick={() => setEditBoardToggle((prev) => !prev)}>
+          <div
+            onClick={() => setEditBoardToggle((prev) => !prev)}
+            className="cursor-pointer"
+          >
             <MoreVertIcon sx={{ color: deepPurple[`A100`] }} />
           </div>
         </div>

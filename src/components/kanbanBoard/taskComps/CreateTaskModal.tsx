@@ -26,10 +26,13 @@ const CreateTaskModal = (props: Props) => {
         <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full">
           <DialogHeader>
             <DialogTitle className="text-start">Add New Task</DialogTitle>
-            <Input />
-            <Input />
-            <Input />
-            <Input />
+            <form>
+              <label htmlFor="title">Title</label>
+              <Input id="title" />
+              <Input />
+              <Input />
+              <Input />
+            </form>
           </DialogHeader>
         </DialogContent>
       </Dialog>

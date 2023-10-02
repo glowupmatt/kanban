@@ -1,7 +1,6 @@
 import React from "react";
 import { Input } from "../../ui/input";
 import CloseIcon from "@mui/icons-material/Close";
-import { BoardDataType } from "@/types/boardData";
 import { ColumnsType } from "@/types/columnsType";
 
 type Props = {
@@ -11,8 +10,8 @@ type Props = {
   setOldBoardColumns: React.Dispatch<React.SetStateAction<string[]>>;
   setDeleteColumnIdHolder: React.Dispatch<React.SetStateAction<string[]>>;
   deleteColumnIdHolder: string[];
-  updated: boolean;
-  setUpdatedState: React.Dispatch<React.SetStateAction<boolean>>;
+  localUpdatedState: boolean;
+  setLocalUpdatedState: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const HasColumns = (props: Props) => {
@@ -23,8 +22,8 @@ const HasColumns = (props: Props) => {
     setOldBoardColumns,
     setDeleteColumnIdHolder,
     deleteColumnIdHolder,
-    updated,
-    setUpdatedState,
+    setLocalUpdatedState,
+    localUpdatedState,
   } = props;
 
   // Adds new column to the form state
@@ -56,8 +55,9 @@ const HasColumns = (props: Props) => {
       newBoardColumns[index] = value;
       return newBoardColumns;
     });
-    setUpdatedState(true);
+    setLocalUpdatedState(true);
   };
+  console.log(localUpdatedState);
 
   // Removes a column from the form
   const removeColumnHandler = (index: number) => {
@@ -70,7 +70,7 @@ const HasColumns = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-3 w-full">
       <label htmlFor="newBoardColumns" className="text-start w-full">
         Board Columns
       </label>

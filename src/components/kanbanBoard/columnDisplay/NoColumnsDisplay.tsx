@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateBoard from "../CreateBoard";
+import { DataContext } from "@/context/AppContext";
 
-type Props = {
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type Props = {};
 
 const NoColumnsDisplay = (props: Props) => {
-  const { setUpdated } = props;
+  const { setUpdated } = useContext(DataContext);
+
   return (
     <div className="h-screen flex  justify-center items-center">
       <div className="flex flex-col justify-center items-center gap-[2.5rem]">
@@ -16,7 +16,7 @@ const NoColumnsDisplay = (props: Props) => {
         </h2>
         <div className="bg-purple-main flex justify-center gap-1 items-center text-grey-lighter text-white w-full max-w-[10.875rem] h-full max-h-[3rem] rounded-full p-4 cursor-pointer hover:bg-purple-hover">
           <AddIcon sx={{ color: "white" }} />
-          <CreateBoard setUpdated={setUpdated} />
+          <CreateBoard />
         </div>
       </div>
     </div>

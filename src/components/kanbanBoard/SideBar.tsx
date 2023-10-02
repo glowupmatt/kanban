@@ -1,38 +1,22 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import LightDarkTheme from "../LightDarkTheme";
-import { BoardDataType } from "@/types/boardData";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button } from "../ui/button";
 import ColumnTitleSelector from "../sideBarComps/ColumnTitleSelector";
 import AddBoardSidebarToggle from "../sideBarComps/AddBoardSidebarToggle";
+import { DataContext } from "@/context/AppContext";
 
-type Props = {
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: BoardDataType[];
-  setSelectedBoardId: React.Dispatch<string>;
-  selectedBoardId: string;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type Props = {};
 
 const SideBar = (props: Props) => {
-  const {
-    setBoardOpen,
-    boardData,
-    setSelectedBoardId,
-    selectedBoardId,
-    setUpdated,
-  } = props;
+  const { setBoardOpen } = useContext(DataContext);
   return (
     <div className="h-full w-full flex flex-col gap-[1rem] overflow-scroll justify-between">
       <div className="flex flex-col">
-        <ColumnTitleSelector
-          setSelectedBoardId={setSelectedBoardId}
-          boardData={boardData}
-          selectedBoardId={selectedBoardId}
-          setBoardOpen={setBoardOpen}
-        />
-        <div className="xl:hidden">
-          <AddBoardSidebarToggle setUpdated={setUpdated} />
+        <ColumnTitleSelector />
+        <div className="">
+          <AddBoardSidebarToggle />
         </div>
       </div>
       <div className="flex flex-col items-center gap-4 lg:relative lg:justify-center left-0 w-[16rem]">

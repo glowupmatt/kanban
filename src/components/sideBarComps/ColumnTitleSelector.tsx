@@ -1,22 +1,19 @@
+"use client";
+import { DataContext } from "@/context/AppContext";
 import { BoardDataType } from "@/types/boardData";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import axios from "axios";
 import classNames from "classNames";
-import React from "react";
+import React, { useContext } from "react";
 
-type Props = {
-  boardData: BoardDataType[];
-  setSelectedBoardId: React.Dispatch<string>;
-  selectedBoardId: string;
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type Props = {};
 
 const ColumnTitleSelector = (props: Props) => {
-  const { boardData, setSelectedBoardId, selectedBoardId, setBoardOpen } =
-    props;
+  const { boardData, selectedBoardId, setSelectedBoardId, setBoardOpen } =
+    useContext(DataContext);
   return (
     <div className="h-full">
-      {boardData.map((board: BoardDataType) => {
+      {boardData.map((board: BoardDataType, index) => {
         const { id } = board;
         const onclickHandler = async () => {
           try {
@@ -30,7 +27,7 @@ const ColumnTitleSelector = (props: Props) => {
         };
         return (
           <div
-            key={parseFloat(id) + Math.floor(Math.random() * 1000)}
+            key={index}
             onClick={onclickHandler}
             className={classNames(
               "flex w-full justify-center items-center gap-[.75rem] cursor-pointer h-[3rem] pl-[1.5rem]",

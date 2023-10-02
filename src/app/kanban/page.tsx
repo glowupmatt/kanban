@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import classNames from "classNames";
@@ -10,20 +10,18 @@ import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
 import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
 import { Draggable } from "@/components/DragableFile";
 import { DataContext } from "@/context/AppContext";
+import { motion, AnimatePresence, useAnimate, useInView } from "framer-motion";
 
 type Props = {};
 
 const KanbanPage = (props: Props) => {
   const {
     boardData,
-    displayBoard,
     selectedBoardId,
     setBoardData,
     setDisplayBoard,
-    setSelectedBoardId,
     setUpdated,
     updated,
-    setBoardOpen,
     boardOpen,
   } = useContext(DataContext);
 
@@ -67,28 +65,13 @@ const KanbanPage = (props: Props) => {
 
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">
-      {/*Main Body Container*/}
       <div
         className={classNames(
-          "h-screen justify-between items-center flex flex-col w-full relative bg-grey-light dark:bg-black-dark md:h-full",
-          { "md:w-full overflow-scroll": !boardOpen },
-          { "md:w-full lg:w-full": boardOpen }
+          "h-screen justify-between items-center flex flex-col w-full relative bg-grey-light dark:bg-black-dark md:h-full md:w-full overflow-scroll"
         )}
       >
-        {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
-        <NavBody
-          setBoardOpen={setBoardOpen}
-          boardOpen={boardOpen}
-          selectedBoardId={selectedBoardId}
-          updated={updated}
-          setUpdated={setUpdated}
-          boardData={boardData}
-          setSelectedBoardId={setSelectedBoardId}
-          displayBoard={displayBoard}
-        />
-        {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
+        <NavBody />
 
-        {/* Column List & Task List*/}
         <Draggable innerRef={boardRef} rootClass={"drag"}>
           <div
             className={classNames(
@@ -98,27 +81,13 @@ const KanbanPage = (props: Props) => {
               }
             )}
           >
-            <ColumnList
-              setUpdated={setUpdated}
-              selectedBoardId={selectedBoardId}
-              boardData={boardData}
-              displayBoard={displayBoard}
-            />
+            <ColumnList />
           </div>
         </Draggable>
-        {/* Column List & Task List*/}
       </div>
-      {/*Button to open & close desktop nav view*/}
-      <VisibilityButton boardOpen={boardOpen} setBoardOpen={setBoardOpen} />
-      {/*Side Nav For Desktop*/}
-      <SideBarContainer
-        boardOpen={boardOpen}
-        setBoardOpen={setBoardOpen}
-        boardData={boardData}
-        setSelectedBoardId={setSelectedBoardId}
-        selectedBoardId={selectedBoardId}
-        setUpdated={setUpdated}
-      />
+      <VisibilityButton />
+
+      <SideBarContainer />
     </div>
   );
 };

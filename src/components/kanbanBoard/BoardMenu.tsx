@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddIcon from "@mui/icons-material/Add";
 import { deepPurple } from "@mui/material/colors";
@@ -7,23 +7,17 @@ import LightDarkTheme from "../LightDarkTheme";
 import CreateBoard from "./CreateBoard";
 import axios from "axios";
 import classNames from "classNames";
-import { BoardDataType } from "@/types/boardData";
-type Props = {
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: BoardDataType[];
-  setSelectedBoardId: React.Dispatch<string>;
-  selectedBoardId: string;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { DataContext } from "@/context/AppContext";
+type Props = {};
 
 const BoardMenu = (props: Props) => {
   const {
-    setBoardOpen,
     boardData,
-    setSelectedBoardId,
     selectedBoardId,
+    setSelectedBoardId,
     setUpdated,
-  } = props;
+    setBoardOpen,
+  } = useContext(DataContext);
 
   return (
     <div className="absolute top-[5rem] z-10 max-w-full w-[17rem] bg-white dark:bg-grey-dark gap-4 rounded-lg min-h-[15rem] justify-between flex flex-col items-start md:hidden">

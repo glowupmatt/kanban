@@ -1,36 +1,31 @@
-import React from "react";
+"use client";
+import React, { useContext, useEffect, useRef } from "react";
 import classNames from "classNames";
 import Image from "next/image";
 import SideBar from "../kanbanBoard/SideBar";
-import { BoardDataType } from "@/types/boardData";
+import { DataContext } from "@/context/AppContext";
+import {
+  motion,
+  AnimatePresence,
+  useAnimate,
+  useInView,
+  usePresence,
+} from "framer-motion";
 
-type Props = {
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  boardOpen: boolean;
-  boardData: BoardDataType[];
-  setSelectedBoardId: React.Dispatch<string>;
-  selectedBoardId: string;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type Props = {};
 
 const SideBarContainer = (props: Props) => {
-  const {
-    setBoardOpen,
-    boardOpen,
-    boardData,
-    setSelectedBoardId,
-    selectedBoardId,
-    setUpdated,
-  } = props;
+  const { boardData, boardOpen } = useContext(DataContext);
+
   return (
     <div
       className={classNames(
         "h-full border-r-solid border-r-2 dark:border-r-grey-dark dark:bg-grey-darkest min-w-[16.25rem] bg-white",
         {
-          "md:hidden hidden": boardOpen,
+          "md:hidden hidden": !boardOpen,
         },
         {
-          "hidden md:block": !boardOpen,
+          "hidden md:block": boardOpen,
         }
       )}
     >
@@ -57,13 +52,7 @@ const SideBarContainer = (props: Props) => {
           <h4 className="opacity-[.6] pl-[1.5rem]">
             All Boards ({boardData.length})
           </h4>
-          <SideBar
-            setBoardOpen={setBoardOpen}
-            boardData={boardData}
-            setSelectedBoardId={setSelectedBoardId}
-            selectedBoardId={selectedBoardId}
-            setUpdated={setUpdated}
-          />
+          <SideBar />
         </div>
       </div>
     </div>

@@ -1,66 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Nav from "./Nav";
 import BoardMenu from "./BoardMenu";
 import EditBoardModal from "./editBoard/EditBoardModal";
 import classNames from "classNames";
-import { BoardDataType } from "@/types/boardData";
+import { DataContext } from "@/context/AppContext";
 
-type Props = {
-  setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  boardOpen: boolean;
-  selectedBoardId: string;
-  updated: boolean;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  boardData: BoardDataType[];
-  setSelectedBoardId: React.Dispatch<React.SetStateAction<any>>;
-  displayBoard: any;
-};
+type Props = {};
 
 const NavBody = (props: Props) => {
-  const {
-    setBoardOpen,
-    boardOpen,
-    selectedBoardId,
-    updated,
-    setUpdated,
-    boardData,
-    setSelectedBoardId,
-    displayBoard,
-  } = props;
+  const { boardOpen } = useContext(DataContext);
   //Sets edit board modal open/close
   const [editBoardToggle, setEditBoardToggle] = useState(false);
   return (
     <div className="w-full flex justify-center items-center">
       {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
       <div className={classNames("w-full flex")}>
-        <Nav
-          setBoardOpen={setBoardOpen}
-          boardOpen={boardOpen}
-          selectedBoardId={selectedBoardId}
-          setEditBoardToggle={setEditBoardToggle}
-          displayBoard={displayBoard}
-        />
+        <Nav setEditBoardToggle={setEditBoardToggle} />
       </div>
-      {!boardOpen ? null : (
-        <BoardMenu
-          setBoardOpen={setBoardOpen}
-          boardData={boardData}
-          setSelectedBoardId={setSelectedBoardId}
-          selectedBoardId={selectedBoardId}
-          setUpdated={setUpdated}
-        />
-      )}
+      {!boardOpen ? null : <BoardMenu />}
       {!editBoardToggle ? null : (
-        <EditBoardModal
-          setEditBoardToggle={setEditBoardToggle}
-          boardData={boardData}
-          editBoardToggle={editBoardToggle}
-          selectedBoardId={selectedBoardId}
-          setSelectedBoardId={setSelectedBoardId}
-          setUpdated={setUpdated}
-          displayBoard={displayBoard}
-        />
+        <EditBoardModal setEditBoardToggle={setEditBoardToggle} />
       )}
       {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
     </div>
