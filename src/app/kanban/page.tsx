@@ -86,7 +86,6 @@ const KanbanPage = (props: Props) => {
         </Draggable>
       </div>
       <VisibilityButton />
-
       <SideBarContainer />
     </div>
   );

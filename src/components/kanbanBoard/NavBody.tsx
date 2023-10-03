@@ -14,7 +14,6 @@ const NavBody = (props: Props) => {
   const [editBoardToggle, setEditBoardToggle] = useState(false);
   return (
     <div className="w-full flex justify-center items-center">
-      {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
       <div className={classNames("w-full flex")}>
         <Nav setEditBoardToggle={setEditBoardToggle} />
       </div>
@@ -22,7 +21,6 @@ const NavBody = (props: Props) => {
       {!editBoardToggle ? null : (
         <EditBoardModal setEditBoardToggle={setEditBoardToggle} />
       )}
-      {/* Nav Bar controls modal toggle with Menu and Edit Board*/}
     </div>
   );
 };
