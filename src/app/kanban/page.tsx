@@ -9,7 +9,6 @@ import NavBody from "@/components/kanbanBoard/NavBody";
 import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
 import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
 import { Draggable } from "@/components/DragableFile";
-import { SelectedColumnsType } from "@/types/selectedBoardData";
 import { DataContext } from "@/context/AppContext";
 import { motion, AnimatePresence, useAnimate, useInView } from "framer-motion";
 
@@ -18,7 +17,7 @@ type Props = {};
 const KanbanPage = (props: Props) => {
   const {
     boardData,
-    selectedBoard,
+    displayBoard,
     setBoardData,
     setUpdated,
     updated,
@@ -52,8 +51,8 @@ const KanbanPage = (props: Props) => {
     if (updated) {
       getBoardData().finally(() => setUpdated(false));
     }
-  }, [selectedBoard, setBoardData, updated, setUpdated]);
-  console.log(boardData, "BOARD DATA");
+  }, [setBoardData, updated, setUpdated]);
+  console.log(boardData);
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">
       <div

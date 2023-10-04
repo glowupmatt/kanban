@@ -9,14 +9,12 @@ import { DataContext } from "@/context/AppContext";
 type Props = {};
 
 const ContainsColumnsDisplay = (props: Props) => {
-  const { selectedBoard } = useContext(DataContext);
-  const columns: ColumnsType[] = selectedBoard?.columns;
-  console.log(selectedBoard, "COLUMNS");
-
+  const { selectedBoardId, displayBoard } = useContext(DataContext);
+  const columns: ColumnsType[] = displayBoard?.columns;
   return (
     <div className="w-full h-full">
       {/* If there are no columns, display this component that displays add column*/}
-      {(selectedBoard.id === "" && columns?.length <= 0) ||
+      {(selectedBoardId === "" && columns?.length <= 0) ||
       columns?.length <= 0 ? (
         <div className="flex flex-col justify-center items-center gap-[2.5rem] h-full">
           <h2 className="text-grey-medium text-center max-w-[21.4375rem ]">

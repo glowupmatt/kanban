@@ -23,8 +23,7 @@ const TodoList = (props: Props) => {
           <h4 className="opacity-[.8]">{title}</h4>
         </div>
         {tasks?.map((task, index: number) => {
-          const { title, description } = task;
-          console.log(task, "TASK");
+          const { title, description, subTask } = task;
           return (
             <Card key={index} className="w-full p-0 dark:bg-grey-darkest">
               <CardHeader>
@@ -34,7 +33,7 @@ const TodoList = (props: Props) => {
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  <p>Card Description</p>
+                  <p>0 of {subTask.length}</p>
                 </CardDescription>
               </CardContent>
             </Card>

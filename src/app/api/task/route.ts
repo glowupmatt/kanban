@@ -12,7 +12,6 @@ export const POST = async (request: Request) => {
     const columnId = status.id;
     const columnTitle = status.column;
     const boardId = status.boardId;
-    console.log(body, "body");
 
     if (!currentUser?.id) {
       return new NextResponse("Unauthorized", { status: 401 });

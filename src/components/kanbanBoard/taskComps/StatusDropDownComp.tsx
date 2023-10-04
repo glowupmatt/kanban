@@ -13,14 +13,12 @@ type Props = {
 
 const StatusDropDownComp = (props: Props) => {
   const { newTask, setNewTask } = props;
-  const { selectedBoard } = useContext(DataContext);
+  const { displayBoard } = useContext(DataContext);
   const [columnsOpen, setColumnsOpen] = useState(false);
-  const columns = selectedBoard.columns;
+  const columns = displayBoard.columns;
   const openColumns = () => {
     setColumnsOpen((prev) => !prev);
   };
-  console.log(selectedBoard, "DISPLAY BOARD");
-
   return (
     <div className="w-full">
       <p className="text-[0.75rem] font-[700] text-start w-full">Status</p>

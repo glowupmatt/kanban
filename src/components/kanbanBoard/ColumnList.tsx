@@ -8,19 +8,13 @@ import { DataContext } from "@/context/AppContext";
 type Props = {};
 
 const ColumnList = (props: Props) => {
-  const { selectedBoard } = useContext(DataContext);
+  const { displayBoard } = useContext(DataContext);
 
-  // let columns: ColumnsType[] = [];
-  // if (selectedBoard?.id === "") {
-  //   columns = [];
-  // } else {
-  //   columns = selectedBoard?.columns;
-  // }
   return (
     <div className="w-full h-full">
-      {selectedBoard.id === "" ||
-      !selectedBoard.id ||
-      selectedBoard.id.length <= 0 ? (
+      {displayBoard?.id === "" ||
+      !displayBoard?.id ||
+      displayBoard?.id.length <= 0 ? (
         //Check if there is no selectedBoardId. This will display a createBoard component
         <NoColumnsDisplay />
       ) : (

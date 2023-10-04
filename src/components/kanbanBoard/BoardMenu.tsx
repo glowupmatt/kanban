@@ -71,7 +71,7 @@ const BoardMenu = (props: Props) => {
         <div className="flex gap-1 justify-center items-center">
           <AddIcon sx={{ color: deepPurple[500] }} />
           <h3 className="text-[#673ab7]">
-            <CreateBoard setUpdated={setUpdated} />
+            <CreateBoard />
           </h3>
         </div>
       </div>
