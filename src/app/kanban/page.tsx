@@ -9,6 +9,7 @@ import NavBody from "@/components/kanbanBoard/NavBody";
 import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
 import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
 import { Draggable } from "@/components/DragableFile";
+import { SelectedColumnsType } from "@/types/selectedBoardData";
 import { DataContext } from "@/context/AppContext";
 import { motion, AnimatePresence, useAnimate, useInView } from "framer-motion";
 
@@ -17,9 +18,8 @@ type Props = {};
 const KanbanPage = (props: Props) => {
   const {
     boardData,
-    selectedBoardId,
+    selectedBoard,
     setBoardData,
-    setDisplayBoard,
     setUpdated,
     updated,
     boardOpen,
@@ -48,21 +48,12 @@ const KanbanPage = (props: Props) => {
         });
       return res;
     };
+
     if (updated) {
       getBoardData().finally(() => setUpdated(false));
     }
-  }, [updated, setUpdated, setBoardData]);
-
-  //Sets the selected board data to be displayed
-  useEffect(() => {
-    setDisplayBoard(() => {
-      const filteredBoardData = boardData.filter(
-        (board) => board.id === selectedBoardId
-      );
-      return filteredBoardData;
-    });
-  }, [boardData, selectedBoardId, setDisplayBoard]);
-
+  }, [selectedBoard, setBoardData, updated, setUpdated]);
+  console.log(boardData, "BOARD DATA");
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">
       <div

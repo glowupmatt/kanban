@@ -11,8 +11,12 @@ export async function GET(
     if (!currentUser?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
     const board = await prisma.board.findUnique({
       where: {
+        user: {
+          id: currentUser.id,
+        },
         id: params.boardId,
       },
       include: {
@@ -34,6 +38,7 @@ export async function PUT(
     const currentUser = await getCurrentUser();
     const body = await request.json();
     const { title, columns } = body;
+    console.log(title, columns);
 
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("Unauthorized", { status: 401 });

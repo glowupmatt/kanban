@@ -7,13 +7,14 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
+import { ColumnsType } from "@/types/columnsType";
 type Props = {
-  column: any;
+  column: ColumnsType;
 };
 
 const TodoList = (props: Props) => {
   const { column } = props;
-  const { title, id } = column;
+  const { title, id, tasks } = column;
   return (
     <header className="min-w-[17.5rem]">
       <div className="flex flex-col gap-4">
@@ -21,18 +22,24 @@ const TodoList = (props: Props) => {
           <CircleIcon sx={{ fontSize: 15 }} className="text-purple-main" />
           <h4 className="opacity-[.8]">{title}</h4>
         </div>
-        <Card className="w-full p-0 dark:bg-grey-darkest">
-          <CardHeader>
-            <CardTitle>
-              <p>Card Title</p>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardDescription>
-              <p>Card Description</p>
-            </CardDescription>
-          </CardContent>
-        </Card>
+        {tasks?.map((task, index: number) => {
+          const { title, description } = task;
+          console.log(task, "TASK");
+          return (
+            <Card key={index} className="w-full p-0 dark:bg-grey-darkest">
+              <CardHeader>
+                <CardTitle>
+                  <p>{title}</p>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  <p>Card Description</p>
+                </CardDescription>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </header>
   );

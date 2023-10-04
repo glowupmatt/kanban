@@ -9,22 +9,24 @@ import React, { useContext } from "react";
 type Props = {};
 
 const ColumnTitleSelector = (props: Props) => {
-  const { boardData, selectedBoardId, setSelectedBoardId, setBoardOpen } =
+  const { boardData, selectedBoard, setSelectedBoard, setBoardOpen } =
     useContext(DataContext);
   return (
     <div className="h-full">
       {boardData.map((board: BoardDataType, index) => {
         const { id } = board;
+
         const onclickHandler = async () => {
           try {
             await axios
               .get(`/api/createBoard/${id}`)
-              .then((res) => setSelectedBoardId(res.data.id))
+              .then((res) => setSelectedBoard(res.data))
               .finally(() => setBoardOpen(false));
           } catch (error) {
             console.log(error);
           }
         };
+
         return (
           <div
             key={index}
@@ -33,11 +35,11 @@ const ColumnTitleSelector = (props: Props) => {
               "flex w-full justify-center items-center gap-[.75rem] cursor-pointer h-[3rem] pl-[1.5rem]",
               {
                 "bg-purple-main rounded-r-full w-[70%] hover:bg-purple-hover transition ease-in-out duration-400":
-                  selectedBoardId === id,
+                  selectedBoard.id === id,
               },
               {
                 " hover:bg-grey-light hover:text-purple-main bg-transparent transition ease-in-out duration-400 rounded-r-full w-[70%]":
-                  selectedBoardId !== id,
+                  selectedBoard.id !== id,
               }
             )}
           >
@@ -45,8 +47,8 @@ const ColumnTitleSelector = (props: Props) => {
             <h3
               className={classNames(
                 "w-full",
-                { "text-white opacity-100": selectedBoardId === id },
-                { "opacity-[.6]": selectedBoardId !== id }
+                { "text-white opacity-100": selectedBoard.id === id },
+                { "opacity-[.6]": selectedBoard.id !== id }
               )}
             >
               {board.title}

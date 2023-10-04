@@ -56,7 +56,15 @@ export async function GET(request: NextRequest) {
         userId: currentUser.id,
       },
       include: {
-        columns: true,
+        columns: {
+          include: {
+            tasks: {
+              include: {
+                subTask: true,
+              },
+            },
+          },
+        },
       },
     });
 

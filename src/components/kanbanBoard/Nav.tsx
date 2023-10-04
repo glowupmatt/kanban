@@ -14,8 +14,7 @@ type Props = {
 
 const Nav = (props: Props) => {
   const { setEditBoardToggle } = props;
-  const { displayBoard, selectedBoardId, setBoardOpen, boardOpen } =
-    useContext(DataContext);
+  const { selectedBoard, setBoardOpen, boardOpen } = useContext(DataContext);
 
   return (
     <nav className="flex justify-evenly items-center gap-4 p-4 w-full bg-white dark:bg-grey-darkest">
@@ -28,15 +27,15 @@ const Nav = (props: Props) => {
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-[.6rem]">
-          {(displayBoard[0]?.title.length > 0 && selectedBoardId) ||
-          displayBoard.length < 0 ? (
+          {selectedBoard.title.length > 0 ||
+          Object.keys(selectedBoard).length < 0 ? (
             <div>
-              <h2 className="hidden md:block"> {displayBoard[0].title}</h2>
+              <h2 className="hidden md:block"> {selectedBoard.title}</h2>
               <h2
                 onClick={() => setBoardOpen((prev) => !prev)}
                 className="md:hidden"
               >
-                {displayBoard[0].title}
+                {selectedBoard.title}
               </h2>
             </div>
           ) : (

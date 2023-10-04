@@ -57,7 +57,6 @@ const HasColumns = (props: Props) => {
     });
     setLocalUpdatedState(true);
   };
-  console.log(localUpdatedState);
 
   // Removes a column from the form
   const removeColumnHandler = (index: number) => {

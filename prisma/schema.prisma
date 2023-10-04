@@ -55,6 +55,7 @@ model Board {
   userId String @db.ObjectId
 
   columns Column[] @relation("ColumnToBoard")
+  tasks   Task[]   @relation("TaskToBoard")
 }
 
 model Column {
@@ -83,6 +84,9 @@ model Task {
 
   columnId String @db.ObjectId
   column   Column @relation("TaskToColumn", fields: [columnId], references: [id], onDelete: Cascade)
+
+  boardId String @db.ObjectId
+  board  Board  @relation("TaskToBoard", fields: [boardId], references: [id], onDelete: Cascade)
 
   subTask SubTask[] @relation("SubTaskToTask")
 }

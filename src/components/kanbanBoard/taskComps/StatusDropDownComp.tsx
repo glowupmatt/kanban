@@ -13,12 +13,13 @@ type Props = {
 
 const StatusDropDownComp = (props: Props) => {
   const { newTask, setNewTask } = props;
-  const { displayBoard } = useContext(DataContext);
+  const { selectedBoard } = useContext(DataContext);
   const [columnsOpen, setColumnsOpen] = useState(false);
-  const columns = displayBoard[0]?.columns;
+  const columns = selectedBoard.columns;
   const openColumns = () => {
     setColumnsOpen((prev) => !prev);
   };
+  console.log(selectedBoard, "DISPLAY BOARD");
 
   return (
     <div className="w-full">
@@ -67,6 +68,7 @@ const StatusDropDownComp = (props: Props) => {
               status: {
                 id: column.id,
                 column: column.title,
+                boardId: column.boardId,
               },
             }));
           setColumnsOpen((prev) => !prev);

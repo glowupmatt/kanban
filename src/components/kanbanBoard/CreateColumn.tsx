@@ -19,17 +19,17 @@ import { DataContext } from "@/context/AppContext";
 type Props = {};
 
 const CreateColumn = (props: Props) => {
-  const { displayBoard, selectedBoardId, setUpdated } = useContext(DataContext);
+  const { selectedBoard, setUpdated } = useContext(DataContext);
   // selected board data that is displayed for user
-  const title = displayBoard[0]?.title;
-  const columns = displayBoard[0]?.columns;
-  const id = displayBoard[0]?.id;
+  const title = selectedBoard?.title;
+  const columns = selectedBoard?.columns;
+  const id = selectedBoard?.id;
 
   const [boardTitle, setBoardTitle] = useState<string>(title);
   useEffect(() => {
     setBoardTitle(title);
   }, [setBoardTitle, title]);
-  console.log(boardTitle, "TITLE");
+
   // Map through all the columns and set the title to the oldBoardColumns state
   const [oldBoardColumns, setOldBoardColumns] = useState<string[]>(() => {
     if (columns) {
@@ -91,7 +91,7 @@ const CreateColumn = (props: Props) => {
             });
         };
         deleteColumnIdHolder.map((id: string) => {
-          deleteFunction(selectedBoardId, id);
+          deleteFunction(selectedBoard.id, id);
         });
       }
     } catch (err) {

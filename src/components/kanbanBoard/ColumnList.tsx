@@ -8,23 +8,23 @@ import { DataContext } from "@/context/AppContext";
 type Props = {};
 
 const ColumnList = (props: Props) => {
-  const { displayBoard, selectedBoardId, setUpdated } = useContext(DataContext);
+  const { selectedBoard } = useContext(DataContext);
 
-  let columns: ColumnsType[] = [];
-  if (selectedBoardId === "") {
-    columns = [];
-  } else {
-    columns = displayBoard[0]?.columns;
-  }
+  // let columns: ColumnsType[] = [];
+  // if (selectedBoard?.id === "") {
+  //   columns = [];
+  // } else {
+  //   columns = selectedBoard?.columns;
+  // }
   return (
     <div className="w-full h-full">
-      {selectedBoardId === "" ||
-      !selectedBoardId ||
-      Object.keys(selectedBoardId).length <= 0 ? (
+      {selectedBoard.id === "" ||
+      !selectedBoard.id ||
+      selectedBoard.id.length <= 0 ? (
         //Check if there is no selectedBoardId. This will display a createBoard component
         <NoColumnsDisplay />
       ) : (
-        <ContainsColumnsDisplay columns={columns} />
+        <ContainsColumnsDisplay />
       )}
     </div>
   );

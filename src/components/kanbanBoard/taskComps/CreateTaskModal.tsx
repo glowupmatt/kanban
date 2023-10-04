@@ -1,5 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -20,34 +21,43 @@ type Props = {};
 export type TaskType = {
   title: string;
   description: string;
-  subtasks: string[];
-  status: { id: string; column: string };
+  subTasks: string[];
+  status: { id: string; column: string; boardId: string };
 };
 
 const CreateTaskModal = (props: Props) => {
-  const { displayBoard, selectedBoardId, setUpdated } = useContext(DataContext);
+  const { setUpdated } = useContext(DataContext);
   const [newTask, setNewTask] = useState<TaskType>({
     title: "",
     description: "",
-    subtasks: [],
+    subTasks: [],
     status: {
       id: "",
       column: "",
+      boardId: "",
     },
   });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(newTask, "NEW TASK");
+    try {
+      axios
+        .post(`/api/task`, newTask)
+        .then((res) => {
+          console.log(res.data, "NEW TASK");
+          setUpdated(true);
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error);
+    }
     setNewTask({
       title: "",
       description: "",
-      subtasks: [],
-      status: { id: "", column: "" },
+      subTasks: [],
+      status: { id: "", column: "", boardId: "" },
     });
   };
-
-  console.log(newTask, "NEW TASK");
   return (
     <Dialog>
       <DialogTrigger className="p-4 bg-purple-main max-w-[3rem] max-h-[2rem] flex justify-center items-center rounded-full hover:bg-purple-hover md:max-w-[10.25rem] md:max-h-[3rem]">

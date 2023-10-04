@@ -13,15 +13,16 @@ const CreateTaskFormComp = (props: Props) => {
   const removeColumnHandler = (index: number) => {
     setNewTask((prev) => ({
       ...prev,
-      subtasks: prev.subtasks.filter((_, i) => i !== index),
+      subTasks: prev.subTasks.filter((_, i) => i !== index),
     }));
   };
   const addSubTask = () => {
     setNewTask((prev) => ({
       ...prev,
-      subtasks: [...prev.subtasks, "Add Subtask"],
+      subTasks: [...prev.subTasks, "Add Subtask"],
     }));
   };
+
   return (
     <div className="w-full flex flex-col gap-3">
       <label htmlFor="title" className="text-[0.75rem] font-[700]">
@@ -47,11 +48,11 @@ const CreateTaskFormComp = (props: Props) => {
           setNewTask({ ...newTask, description: e.target.value });
         }}
       />
-      {newTask.subtasks.map((subtask, index) => {
+      {newTask.subTasks.map((subTask, index) => {
         const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           setNewTask((prev) => ({
             ...prev,
-            subtasks: prev.subtasks.map((sub, i) =>
+            subTasks: prev.subTasks.map((sub, i) =>
               i === index ? e.target.value : sub
             ),
           }));
@@ -61,7 +62,7 @@ const CreateTaskFormComp = (props: Props) => {
             <Input
               type="text"
               className="dark:border-grey-light border-grey-darkest border-solid border-2"
-              value={subtask}
+              value={subTask}
               onChange={onChange}
             />
             <div onClick={() => removeColumnHandler(index)}>

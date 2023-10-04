@@ -2,17 +2,18 @@
 
 import React from "react";
 import { BoardDataType } from "@/types/boardData";
+import { SelectedColumnsType } from "@/types/selectedBoardData";
 import { createContext, useState } from "react";
 
 type AppContextType = {
   boardData: BoardDataType[];
   setBoardData: React.Dispatch<React.SetStateAction<BoardDataType[]>>;
-  selectedBoardId: string;
-  setSelectedBoardId: React.Dispatch<React.SetStateAction<string>>;
+  selectedBoard: SelectedColumnsType;
+  setSelectedBoard: React.Dispatch<React.SetStateAction<SelectedColumnsType>>;
   updated: boolean;
   setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  displayBoard: BoardDataType[];
-  setDisplayBoard: React.Dispatch<React.SetStateAction<BoardDataType[]>>;
+  displayBoard: SelectedColumnsType[];
+  setDisplayBoard: React.Dispatch<React.SetStateAction<SelectedColumnsType[]>>;
   boardOpen: boolean;
   setBoardOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -25,10 +26,39 @@ type Props = {
 
 export default function AppContext({ children }: Props) {
   const [boardData, setBoardData] = useState<BoardDataType[]>([]);
-  const [selectedBoardId, setSelectedBoardId] = useState<string>("");
   const [boardOpen, setBoardOpen] = useState<boolean>(false);
   const [updated, setUpdated] = useState<boolean>(true);
-  const [displayBoard, setDisplayBoard] = useState<BoardDataType[]>([
+  const [selectedBoard, setSelectedBoard] = useState<SelectedColumnsType>({
+    id: "",
+    title: "",
+    createdAt: "",
+    updatedAt: "",
+    userId: "",
+    columns: [
+      {
+        id: "",
+        title: "",
+        createdAt: "",
+        UpdatedAt: "",
+        userId: "",
+        boardId: "",
+        tasks: [
+          {
+            id: "",
+            title: "",
+            description: "",
+            userId: "",
+            boardId: "",
+            columnId: "",
+            createdAt: "",
+            updatedAt: "",
+            subTask: [{ title: "" }],
+          },
+        ],
+      },
+    ],
+  });
+  const [displayBoard, setDisplayBoard] = useState<SelectedColumnsType[]>([
     {
       id: "",
       title: "",
@@ -43,6 +73,19 @@ export default function AppContext({ children }: Props) {
           UpdatedAt: "",
           userId: "",
           boardId: "",
+          tasks: [
+            {
+              id: "",
+              title: "",
+              description: "",
+              userId: "",
+              boardId: "",
+              columnId: "",
+              createdAt: "",
+              updatedAt: "",
+              subTask: [{ title: "" }],
+            },
+          ],
         },
       ],
     },
@@ -53,8 +96,8 @@ export default function AppContext({ children }: Props) {
         {
           boardData,
           setBoardData,
-          selectedBoardId,
-          setSelectedBoardId,
+          selectedBoard,
+          setSelectedBoard,
           updated,
           setUpdated,
           displayBoard,
