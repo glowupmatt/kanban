@@ -8,45 +8,29 @@ import React, { useEffect, useRef, useState } from "react";
 type Props = {
   newBoardColumns: string[];
   oldBoardColumns: string[];
+  isFormValid: boolean;
 };
 
 const EditColumnSubmitButton = (props: Props) => {
-  const { newBoardColumns, oldBoardColumns } = props;
-
-  const [disabled, setDisabled] = useState(true);
-
-  const disabledHandler =
-    (newBoardColumns?.map((string) => string === "").includes(true) &&
-      oldBoardColumns?.map((string) => string === "").includes(true)) ||
-    newBoardColumns?.length <= 0 ||
-    oldBoardColumns?.length <= 0;
+  const { newBoardColumns, oldBoardColumns, isFormValid } = props;
+  const boardColumnIsEmpty = newBoardColumns.every((column) => column.length);
+  const noColumns = newBoardColumns.length <= 0;
 
   return (
     <Button
       type="submit"
-      disabled={
-        (newBoardColumns?.map((string) => string === "").includes(true) &&
-          oldBoardColumns?.map((string) => string === "").includes(true)) ||
-        newBoardColumns?.length <= 0 ||
-        oldBoardColumns?.length <= 0
-      }
+      disabled={!isFormValid || !boardColumnIsEmpty}
       className={classNames(
         "flex text-white rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 w-full",
         {
-          "bg-red-main cursor-not-allowed": disabledHandler,
+          "bg-red-main cursor-not-allowed": !isFormValid || !boardColumnIsEmpty,
         },
-        { "bg-purple-main cursor-pointer": !disabledHandler }
+        { "bg-purple-main cursor-pointer": isFormValid }
       )}
     >
-      {disabledHandler ? (
-        <div>
-          <p className="text-white">Must Add A Column</p>
-        </div>
-      ) : (
-        <DialogClose>
-          <p className="font-[700]">Submit Changes</p>
-        </DialogClose>
-      )}
+      <DialogClose>
+        <p className="font-[700]">Submit Changes</p>
+      </DialogClose>
     </Button>
   );
 };

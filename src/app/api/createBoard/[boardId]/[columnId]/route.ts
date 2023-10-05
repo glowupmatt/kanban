@@ -17,6 +17,13 @@ export async function DELETE(
       where: {
         id: params.columnId,
       },
+      include: {
+        tasks: {
+          include: {
+            subTask: true,
+          },
+        },
+      },
     });
 
     return new NextResponse(JSON.stringify(column), { status: 200 });

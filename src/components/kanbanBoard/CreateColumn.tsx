@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,7 @@ import NoCurrentColumns from "./editBoard/NoCurrentColumns";
 import HasColumns from "./editBoard/HasColumns";
 import { ColumnsType } from "@/types/columnsType";
 import { DataContext } from "@/context/AppContext";
-import { isStringEmpty } from "@/lib/inputChecker";
 import BoardTitleInput from "./editBoard/BoardTitleInput";
-import BoardSubmitButton from "./editBoard/BoardSubmitButton";
 import EditColumnSubmitButton from "./columnDisplay/EditColumnSubmitButton";
 
 type Props = {};
@@ -26,9 +24,7 @@ const CreateColumn = (props: Props) => {
   const columns = displayBoard?.columns;
   const id = displayBoard?.id;
   const [boardName, setBoardName] = useState<string>(title);
-  useEffect(() => {
-    setBoardName(title);
-  }, [setBoardName, title]);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   const [oldBoardColumns, setOldBoardColumns] = useState<string[]>(() => {
     if (columns) {
@@ -44,10 +40,20 @@ const CreateColumn = (props: Props) => {
   const [deleteColumnIdHolder, setDeleteColumnIdHolder] = useState<string[]>(
     []
   );
-
-  const boardNameOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBoardName(e.currentTarget.value);
-  };
+  console.log(deleteColumnIdHolder);
+  const noColumns = newBoardColumns.length === 0;
+  useEffect(() => {
+    if (
+      (boardName.length && newBoardColumns.length) ||
+      (newBoardColumns.length &&
+        newBoardColumns.every((column) => column.length))
+    ) {
+      console.log(newBoardColumns.length, "CHECKING");
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [newBoardColumns, boardName, noColumns]);
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,6 +92,7 @@ const CreateColumn = (props: Props) => {
             .then((res) => res)
             .finally(() => {
               setUpdated(true), setNewBoardColumns(["Add A New Column"]);
+              setDeleteColumnIdHolder([]);
             });
         };
         deleteColumnIdHolder.map((id: string) => {
@@ -124,6 +131,7 @@ const CreateColumn = (props: Props) => {
               <EditColumnSubmitButton
                 newBoardColumns={newBoardColumns}
                 oldBoardColumns={oldBoardColumns}
+                isFormValid={isFormValid}
               />
             </div>
           ) : (
@@ -147,6 +155,7 @@ const CreateColumn = (props: Props) => {
               <EditColumnSubmitButton
                 newBoardColumns={newBoardColumns}
                 oldBoardColumns={oldBoardColumns}
+                isFormValid={isFormValid}
               />
             </div>
           )}

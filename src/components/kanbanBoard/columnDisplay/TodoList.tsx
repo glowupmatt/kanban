@@ -33,7 +33,7 @@ const TodoList = (props: Props) => {
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  <p>0 of {subTask.length}</p>
+                  <p>{description}</p>
                 </CardDescription>
               </CardContent>
             </Card>

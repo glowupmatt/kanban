@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,17 +21,27 @@ const CreateBoard = (props: Props) => {
   const { setUpdated } = useContext(DataContext);
   const [newBoardColumns, setNewBoardColumns] = useState([""]);
   const [boardName, setBoardName] = useState("New Board");
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    if (
+      boardName.length &&
+      newBoardColumns.length &&
+      newBoardColumns.every((column) => column.length)
+    ) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [newBoardColumns, boardName]);
+
   const addColumnHandler = () => {
     setNewBoardColumns((prev) => [...prev, `New Column`]);
   };
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      isStringEmpty(boardName) === false &&
-      newBoardColumns.length > 0 &&
-      isStringEmpty(newBoardColumns[0]) === false
-    ) {
+    if (isFormValid) {
       const data = {
         title: e.currentTarget.boardName.value,
         columns: newBoardColumns.map((title) => title),
@@ -84,7 +94,10 @@ const CreateBoard = (props: Props) => {
               <p className="font-[700]">+ Add New Column</p>
             </Button>
           </div>
-          <BoardSubmitButton newBoardColumns={newBoardColumns} />
+          <BoardSubmitButton
+            newBoardColumns={newBoardColumns}
+            isFormValid={isFormValid}
+          />
         </form>
       </DialogContent>
     </Dialog>

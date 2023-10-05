@@ -5,15 +5,17 @@ import React from "react";
 
 type Props = {
   newBoardColumns: string[];
+  isFormValid: boolean;
 };
 
 const BoardSubmitButton = (props: Props) => {
-  const { newBoardColumns } = props;
+  const { newBoardColumns, isFormValid } = props;
+  console.log(isFormValid);
 
   return (
     <Button
       type="submit"
-      disabled={newBoardColumns.length <= 0}
+      disabled={!isFormValid}
       className={classNames(
         "flex text-white rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 w-full",
         {
@@ -22,15 +24,9 @@ const BoardSubmitButton = (props: Props) => {
         { "bg-purple-main cursor-pointer": newBoardColumns.length > 0 }
       )}
     >
-      {newBoardColumns.length <= 0 || newBoardColumns[0] === "" ? (
-        <div>
-          <p className="text-white">Must Add A Column</p>
-        </div>
-      ) : (
-        <DialogClose>
-          <p className="font-[700]">Create New Board</p>
-        </DialogClose>
-      )}
+      <DialogClose>
+        <p className="font-[700]">Create New Board</p>
+      </DialogClose>
     </Button>
   );
 };

@@ -4,7 +4,6 @@ import axios from "axios";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -27,6 +26,7 @@ export type TaskType = {
 
 const CreateTaskModal = (props: Props) => {
   const { setUpdated } = useContext(DataContext);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [newTask, setNewTask] = useState<TaskType>({
     title: "",
     description: "",
@@ -37,6 +37,18 @@ const CreateTaskModal = (props: Props) => {
       boardId: "",
     },
   });
+
+  useEffect(() => {
+    if (
+      Object.values(newTask).every((el) => el !== "") &&
+      newTask.status.id !== "" &&
+      newTask.subTasks.length > 0
+    ) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [newTask]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,6 +88,7 @@ const CreateTaskModal = (props: Props) => {
           <StatusDropDownComp newTask={newTask} setNewTask={setNewTask} />
           <Button
             type="submit"
+            disabled={!isFormValid}
             className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 self-center w-full"
           >
             <DialogClose>

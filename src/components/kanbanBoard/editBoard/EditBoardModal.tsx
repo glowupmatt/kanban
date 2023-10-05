@@ -14,9 +14,8 @@ type Props = {
 
 const EditBoardModal = (props: Props) => {
   const { setEditBoardToggle } = props;
-  const { selectedBoardId, displayBoard } = useContext(DataContext);
-  console.log(isStringEmpty(displayBoard.id));
-  console.log(selectedBoardId);
+  const { displayBoard } = useContext(DataContext);
+
   return (
     <div>
       <div className={classNames("absolute top-[4rem] right-[1rem] z-10")}>
