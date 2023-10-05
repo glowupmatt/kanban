@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { BoardDataType } from "@/types/boardData";
 import { ColumnsType } from "@/types/columnsType";
 import CreateColumn from "../CreateColumn";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,7 +12,6 @@ const ContainsColumnsDisplay = (props: Props) => {
   const columns: ColumnsType[] = displayBoard?.columns;
   return (
     <div className="w-full h-full">
-      {/* If there are no columns, display this component that displays add column*/}
       {(selectedBoardId === "" && columns?.length <= 0) ||
       columns?.length <= 0 ? (
         <div className="flex flex-col justify-center items-center gap-[2.5rem] h-full">
@@ -27,7 +25,6 @@ const ContainsColumnsDisplay = (props: Props) => {
         </div>
       ) : (
         <div className="h-full flex p-4 gap-4">
-          {/* If there are columns, display this component that displays columns and all its Tasks*/}
           {columns?.map((column: ColumnsType, index: number) => {
             return <TodoList key={index} column={column} />;
           })}

@@ -12,10 +12,7 @@ const ColumnList = (props: Props) => {
 
   return (
     <div className="w-full h-full">
-      {displayBoard?.id === "" ||
-      !displayBoard?.id ||
-      displayBoard?.id.length <= 0 ? (
-        //Check if there is no selectedBoardId. This will display a createBoard component
+      {displayBoard?.id === "" ? (
         <NoColumnsDisplay />
       ) : (
         <ContainsColumnsDisplay />

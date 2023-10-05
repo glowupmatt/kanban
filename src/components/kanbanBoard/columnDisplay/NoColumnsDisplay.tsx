@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CreateBoard from "../CreateBoard";
-import { DataContext } from "@/context/AppContext";
 
 type Props = {};
 
 const NoColumnsDisplay = (props: Props) => {
-  const { setUpdated } = useContext(DataContext);
-
   return (
     <div className="h-screen flex  justify-center items-center">
       <div className="flex flex-col justify-center items-center gap-[2.5rem]">

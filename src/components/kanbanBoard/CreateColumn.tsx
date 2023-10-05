@@ -1,36 +1,35 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import axios from "axios";
 import NoCurrentColumns from "./editBoard/NoCurrentColumns";
 import HasColumns from "./editBoard/HasColumns";
 import { ColumnsType } from "@/types/columnsType";
 import { DataContext } from "@/context/AppContext";
+import { isStringEmpty } from "@/lib/inputChecker";
+import BoardTitleInput from "./editBoard/BoardTitleInput";
+import BoardSubmitButton from "./editBoard/BoardSubmitButton";
+import EditColumnSubmitButton from "./columnDisplay/EditColumnSubmitButton";
 
 type Props = {};
 
 const CreateColumn = (props: Props) => {
-  const { selectedBoard, setUpdated } = useContext(DataContext);
-  // selected board data that is displayed for user
-  const title = selectedBoard?.title;
-  const columns = selectedBoard?.columns;
-  const id = selectedBoard?.id;
+  const { displayBoard, setUpdated } = useContext(DataContext);
 
-  const [boardTitle, setBoardTitle] = useState<string>(title);
+  const title = displayBoard?.title;
+  const columns = displayBoard?.columns;
+  const id = displayBoard?.id;
+  const [boardName, setBoardName] = useState<string>(title);
   useEffect(() => {
-    setBoardTitle(title);
-  }, [setBoardTitle, title]);
+    setBoardName(title);
+  }, [setBoardName, title]);
 
-  // Map through all the columns and set the title to the oldBoardColumns state
   const [oldBoardColumns, setOldBoardColumns] = useState<string[]>(() => {
     if (columns) {
       return columns.map((column: ColumnsType) => column.title);
@@ -40,21 +39,20 @@ const CreateColumn = (props: Props) => {
   });
   const [localUpdatedState, setLocalUpdatedState] = useState<boolean>(false);
 
-  // Set the new columns to the newBoardColumns state
   const [newBoardColumns, setNewBoardColumns] = useState(["Add A New Column"]);
-  // Stores the selected column id to be deleted
+
   const [deleteColumnIdHolder, setDeleteColumnIdHolder] = useState<string[]>(
     []
   );
-  //changed the title of the board
+
   const boardNameOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBoardTitle(e.currentTarget.value);
+    setBoardName(e.currentTarget.value);
   };
-  //on submit handler for the edit board modal
+
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (localUpdatedState === true) {
+      if (localUpdatedState === true && oldBoardColumns.length > 0) {
         const res = columns.map((column: any, index: number) => {
           const editOldColumns = async () => {
             const data = {
@@ -68,9 +66,9 @@ const CreateColumn = (props: Props) => {
           editOldColumns();
         });
       }
-      if (newBoardColumns.length > 0 || boardTitle !== title) {
+      if (newBoardColumns.length > 0 || boardName !== title) {
         const data = {
-          title: boardTitle === "" ? title : boardTitle,
+          title: boardName === "" ? title : boardName,
           columns: newBoardColumns.map((title) => title),
         };
         const res = await axios
@@ -91,14 +89,13 @@ const CreateColumn = (props: Props) => {
             });
         };
         deleteColumnIdHolder.map((id: string) => {
-          deleteFunction(selectedBoard.id, id);
+          deleteFunction(displayBoard.id, id);
         });
       }
     } catch (err) {
       console.log(err);
     }
   };
-
   return (
     <Dialog>
       <DialogTrigger className="h-full w-full">
@@ -112,52 +109,29 @@ const CreateColumn = (props: Props) => {
           className="flex flex-col gap-4 w-full items-center"
           onSubmit={onSubmitHandler}
         >
-          {/* check for column if none it will display create column button */}
-          {!columns ? (
-            <div>
-              <div>
-                <label
-                  htmlFor="boardName"
-                  className="text-[0.75rem] font-[700]"
-                >
-                  Board Name
-                </label>
-                <Input
-                  id="boardName"
-                  placeholder={boardTitle}
-                  type="text"
-                  value={boardTitle}
-                  onChange={boardNameOnChangeHandler}
-                  className="dark:border-grey-light border-grey-darkest border-solid border-2"
-                />
-                <p className="font-[700]">Board Columns</p>
-                <NoCurrentColumns
-                  newBoardColumns={newBoardColumns}
-                  setNewBoardColumns={setNewBoardColumns}
-                />
-              </div>
-              <Button
-                type="submit"
-                className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1"
-              >
-                <DialogClose>
-                  <p className="font-[700]">Save Changes</p>
-                </DialogClose>
-              </Button>
+          {columns.length <= 0 ? (
+            <div className="w-full flex flex-col gap-3">
+              <BoardTitleInput
+                boardName={boardName}
+                setBoardName={setBoardName}
+              />
+              <p className="text-[0.75rem] font-[700]">Board Columns</p>
+              <NoCurrentColumns
+                newBoardColumns={newBoardColumns}
+                setNewBoardColumns={setNewBoardColumns}
+              />
 
-              {/* check for column if none it will display create column button */}
+              <EditColumnSubmitButton
+                newBoardColumns={newBoardColumns}
+                oldBoardColumns={oldBoardColumns}
+              />
             </div>
           ) : (
-            <div className="w-full flex flex-col items-center">
+            <div className="w-full flex flex-col items-center gap-3">
               <div className="w-full">
-                <label htmlFor="boardName">Board Name</label>
-                <Input
-                  id="boardName"
-                  value={boardTitle}
-                  placeholder={boardTitle}
-                  type="text"
-                  onChange={boardNameOnChangeHandler}
-                  className="dark:border-grey-light border-grey-darkest border-solid border-2"
+                <BoardTitleInput
+                  boardName={boardName}
+                  setBoardName={setBoardName}
                 />
               </div>
               <HasColumns
@@ -170,16 +144,10 @@ const CreateColumn = (props: Props) => {
                 localUpdatedState={localUpdatedState}
                 setLocalUpdatedState={setLocalUpdatedState}
               />
-              <Button
-                type="submit"
-                className="flex text-white bg-purple-main rounded-full max-h-[2.5rem] max-w-[18.4375rem] justify-center items-center gap-1 self-center w-full mt-[1rem]"
-              >
-                <DialogClose>
-                  <p className="font-[700]">Save Changes</p>
-                </DialogClose>
-              </Button>
-
-              {/* check for column if there are columns it will display all the columns that can be edited*/}
+              <EditColumnSubmitButton
+                newBoardColumns={newBoardColumns}
+                oldBoardColumns={oldBoardColumns}
+              />
             </div>
           )}
         </form>

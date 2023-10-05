@@ -27,15 +27,8 @@ const BoardMenu = (props: Props) => {
       <div className="flex gap-[0.87rem] flex-col w-full">
         {boardData.map((board: any) => {
           const { id } = board;
-          const onclickHandler = async () => {
-            try {
-              await axios
-                .get(`/api/createBoard/${id}`)
-                .then((res) => setSelectedBoardId(res.data.id))
-                .finally(() => setBoardOpen(false));
-            } catch (error) {
-              console.log(error);
-            }
+          const onclickHandler = () => {
+            setSelectedBoardId(id);
           };
           return (
             <div

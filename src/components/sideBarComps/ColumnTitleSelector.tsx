@@ -9,24 +9,15 @@ import React, { useContext } from "react";
 type Props = {};
 
 const ColumnTitleSelector = (props: Props) => {
-  const { boardData, selectedBoardId, setSelectedBoardId, setBoardOpen } =
+  const { boardData, selectedBoardId, setSelectedBoardId } =
     useContext(DataContext);
   return (
     <div className="h-full">
       {boardData.map((board: BoardDataType, index) => {
         const { id } = board;
-
         const onclickHandler = async () => {
-          try {
-            await axios
-              .get(`/api/createBoard/${id}`)
-              .then((res) => setSelectedBoardId(res.data.id))
-              .finally(() => setBoardOpen(false));
-          } catch (error) {
-            console.log(error);
-          }
+          setSelectedBoardId(id);
         };
-
         return (
           <div
             key={index}

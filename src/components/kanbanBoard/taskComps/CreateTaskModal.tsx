@@ -44,7 +44,7 @@ const CreateTaskModal = (props: Props) => {
       axios
         .post(`/api/task`, newTask)
         .then((res) => {
-          console.log(res.data);
+          res.data;
           setUpdated(true);
         })
         .catch((err) => console.log(err));

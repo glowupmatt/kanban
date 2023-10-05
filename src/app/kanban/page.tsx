@@ -34,7 +34,6 @@ const KanbanPage = (props: Props) => {
       router.push("/");
     }
   }, [session, router]);
-  //Gets board data from database & updates when board is updated
   useEffect(() => {
     const getBoardData = async () => {
       const res = await axios

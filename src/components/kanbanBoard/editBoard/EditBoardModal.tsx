@@ -6,6 +6,7 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import CreateBoard from "../CreateBoard";
 import CreateColumn from "../CreateColumn";
 import { DataContext } from "@/context/AppContext";
+import { isStringEmpty } from "@/lib/inputChecker";
 
 type Props = {
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,12 +14,14 @@ type Props = {
 
 const EditBoardModal = (props: Props) => {
   const { setEditBoardToggle } = props;
-  const { selectedBoard } = useContext(DataContext);
+  const { selectedBoardId, displayBoard } = useContext(DataContext);
+  console.log(isStringEmpty(displayBoard.id));
+  console.log(selectedBoardId);
   return (
     <div>
       <div className={classNames("absolute top-[4rem] right-[1rem] z-10")}>
         <Card className=" min-h-[5.875rem] min-w-[12rem] bg-white dark:bg-grey-dark rounded-lg">
-          {!selectedBoard || selectedBoard.title === "" ? (
+          {displayBoard.columns.length <= 0 ? (
             <CardContent className="min-h-[6rem] p-0 w-full flex flex-col gap-4 justify-center items-start pl-4">
               <CreateBoard />
             </CardContent>
