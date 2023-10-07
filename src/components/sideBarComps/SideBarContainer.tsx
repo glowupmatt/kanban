@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useRef } from "react";
-import classNames from "classNames";
+import classNames from "classnames";
 import Image from "next/image";
 import SideBar from "../kanbanBoard/SideBar";
 import { DataContext } from "@/context/AppContext";

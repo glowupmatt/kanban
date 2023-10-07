@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { isStringEmpty } from "@/lib/inputChecker";
-import classNames from "classNames";
+import classNames from "classnames";
 import React from "react";
 
 type Props = {

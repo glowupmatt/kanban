@@ -1,6 +1,6 @@
 "use client";
 
-import classNames from "classNames";
+import classNames from "classnames";
 
 interface ButtonProps {
   type?: "button" | "submit" | "reset" | undefined;

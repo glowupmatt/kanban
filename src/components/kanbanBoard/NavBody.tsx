@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import Nav from "./Nav";
 import BoardMenu from "./BoardMenu";
 import EditBoardModal from "./editBoard/EditBoardModal";
-import classNames from "classNames";
+import classNames from "classnames";
 import { DataContext } from "@/context/AppContext";
 
 type Props = {};

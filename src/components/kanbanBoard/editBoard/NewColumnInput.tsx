@@ -3,7 +3,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import CloseIcon from "@mui/icons-material/Close";
 import { isStringEmpty } from "@/lib/inputChecker";
-import classNames from "classNames";
+import classNames from "classnames";
 
 type Props = {
   board: string;

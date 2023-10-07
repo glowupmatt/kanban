@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import classNames from "classNames";
+import classNames from "classnames";
 import { deepPurple, grey } from "@mui/material/colors";
 import { DataContext } from "@/context/AppContext";
 import { TaskType } from "./CreateTaskModal";

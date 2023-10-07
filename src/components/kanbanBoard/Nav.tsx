@@ -4,7 +4,7 @@ import Image from "next/image";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { deepPurple, grey } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import classNames from "classNames";
+import classNames from "classnames";
 import CreateTaskModal from "./taskComps/CreateTaskModal";
 import { DataContext } from "@/context/AppContext";
 

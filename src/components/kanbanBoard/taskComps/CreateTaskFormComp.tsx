@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import CloseIcon from "@mui/icons-material/Close";
 import { TaskType } from "./CreateTaskModal";
-import classNames from "classNames";
+import classNames from "classnames";
 
 type Props = {
   task: TaskType;

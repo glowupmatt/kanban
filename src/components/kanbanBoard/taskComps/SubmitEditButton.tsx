@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
-import classNames from "classNames";
+import classNames from "classnames";
 type Props = {};
 
 const SubmitEditButton = (props: Props) => {

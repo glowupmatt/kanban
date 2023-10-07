@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import classNames from "classNames";
+import classNames from "classnames";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import CreateBoard from "../CreateBoard";
 import CreateColumn from "../CreateColumn";

@@ -3,7 +3,7 @@ import { DataContext } from "@/context/AppContext";
 import { BoardDataType } from "@/types/boardData";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import axios from "axios";
-import classNames from "classNames";
+import classNames from "classnames";
 import React, { useContext } from "react";
 
 type Props = {};

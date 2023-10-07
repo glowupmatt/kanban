@@ -6,7 +6,7 @@ import { deepPurple } from "@mui/material/colors";
 import LightDarkTheme from "../LightDarkTheme";
 import CreateBoard from "./CreateBoard";
 import axios from "axios";
-import classNames from "classNames";
+import classNames from "classnames";
 import { DataContext } from "@/context/AppContext";
 type Props = {};
 

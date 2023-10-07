@@ -1,6 +1,6 @@
 "use client";
 
-import classNames from "classNames";
+import classNames from "classnames";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps {

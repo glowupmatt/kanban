@@ -1,5 +1,5 @@
 "use client";
-import classNames from "classNames";
+import classNames from "classnames";
 import React, { useContext } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataContext } from "@/context/AppContext";

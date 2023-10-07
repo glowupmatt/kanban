@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import classNames from "classNames";
+import classNames from "classnames";
 import ColumnList from "@/components/kanbanBoard/ColumnList";
 import axios from "axios";
 import NavBody from "@/components/kanbanBoard/NavBody";
