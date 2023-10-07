@@ -16,21 +16,32 @@ import { Button } from "@/components/ui/button";
 import StatusDropDownComp from "./StatusDropDownComp";
 import CreateTaskFormComp from "./CreateTaskFormComp";
 
-type Props = {};
 export type TaskType = {
   title: string;
   description: string;
-  subTasks: string[];
-  status: { id: string; column: string; boardId: string };
+  subTask: {
+    title: string;
+    completed: boolean;
+  }[];
+  status: {
+    id: string;
+    column: string;
+    boardId: string;
+  };
 };
 
-const CreateTaskModal = (props: Props) => {
+const CreateTaskModal = () => {
   const { setUpdated } = useContext(DataContext);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
-  const [newTask, setNewTask] = useState<TaskType>({
+  const [task, setTask] = useState<TaskType>({
     title: "",
     description: "",
-    subTasks: [],
+    subTask: [
+      {
+        title: "",
+        completed: false,
+      },
+    ],
     status: {
       id: "",
       column: "",
@@ -40,21 +51,21 @@ const CreateTaskModal = (props: Props) => {
 
   useEffect(() => {
     if (
-      Object.values(newTask).every((el) => el !== "") &&
-      newTask.status.id !== "" &&
-      newTask.subTasks.length > 0
+      Object.values(task).every((el) => el !== "") &&
+      task.status.id !== "" &&
+      task.subTask.length > 0
     ) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
     }
-  }, [newTask]);
+  }, [task]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       axios
-        .post(`/api/task`, newTask)
+        .post(`/api/task`, task)
         .then((res) => {
           res.data;
           setUpdated(true);
@@ -63,10 +74,10 @@ const CreateTaskModal = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-    setNewTask({
+    setTask({
       title: "",
       description: "",
-      subTasks: [],
+      subTask: [],
       status: { id: "", column: "", boardId: "" },
     });
   };
@@ -84,8 +95,12 @@ const CreateTaskModal = (props: Props) => {
           className="flex flex-col gap-4 w-full items-center h-full"
           onSubmit={onSubmit}
         >
-          <CreateTaskFormComp newTask={newTask} setNewTask={setNewTask} />
-          <StatusDropDownComp newTask={newTask} setNewTask={setNewTask} />
+          <CreateTaskFormComp
+            task={task}
+            setTask={setTask}
+            isFormValid={isFormValid}
+          />
+          <StatusDropDownComp task={task} setTask={setTask} />
           <Button
             type="submit"
             disabled={!isFormValid}

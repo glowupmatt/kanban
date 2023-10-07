@@ -1,13 +1,11 @@
 import React from "react";
 import CircleIcon from "@mui/icons-material/Circle";
-import {
-  Card,
-  CardTitle,
-  CardContent,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
+import { TaskType } from "@/types/taskType";
 import { ColumnsType } from "@/types/columnsType";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import TaskCard from "../taskComps/TaskCard";
+import SelectedTaskDisplay from "../taskComps/SelectedTaskDisplay";
+
 type Props = {
   column: ColumnsType;
 };
@@ -23,20 +21,19 @@ const TodoList = (props: Props) => {
           <h4 className="opacity-[.8]">{title}</h4>
         </div>
         {tasks?.map((task, index: number) => {
-          const { title, description, subTask } = task;
+          const { title, description, subTask, columnId } = task;
           return (
-            <Card key={index} className="w-full p-0 dark:bg-grey-darkest">
-              <CardHeader>
-                <CardTitle>
-                  <p>{title}</p>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  <p>{description}</p>
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <Dialog key={index}>
+              <DialogTrigger className="text-start">
+                <TaskCard
+                  title={title}
+                  description={description}
+                  subTask={subTask}
+                  columnId={columnId}
+                />
+              </DialogTrigger>
+              <SelectedTaskDisplay task={task} />
+            </Dialog>
           );
         })}
       </div>

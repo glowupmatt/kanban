@@ -6,12 +6,14 @@ import React from "react";
 type Props = {
   boardName: string;
   setBoardName: React.Dispatch<React.SetStateAction<string>>;
+  setDidBoardNameChange: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const BoardTitleInput = (props: Props) => {
-  const { boardName, setBoardName } = props;
+  const { boardName, setBoardName, setDidBoardNameChange } = props;
   const boardNameOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBoardName(e.currentTarget.value);
+    setDidBoardNameChange(true);
   };
   return (
     <div>

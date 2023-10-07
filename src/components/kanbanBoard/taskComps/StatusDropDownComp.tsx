@@ -7,12 +7,12 @@ import { DataContext } from "@/context/AppContext";
 import { TaskType } from "./CreateTaskModal";
 
 type Props = {
-  newTask: TaskType;
-  setNewTask: React.Dispatch<React.SetStateAction<TaskType>>;
+  task: TaskType;
+  setTask: React.Dispatch<React.SetStateAction<TaskType>>;
 };
 
 const StatusDropDownComp = (props: Props) => {
-  const { newTask, setNewTask } = props;
+  const { task, setTask } = props;
   const { displayBoard } = useContext(DataContext);
   const [columnsOpen, setColumnsOpen] = useState(false);
   const columns = displayBoard.columns;
@@ -24,12 +24,19 @@ const StatusDropDownComp = (props: Props) => {
       <p className="text-[0.75rem] font-[700] text-start w-full">Status</p>
       <div
         onClick={openColumns}
-        className="w-full border-solid border-2 rounded-md h-[2.5rem] pl-4 flex justify-between items-center min-w-[18.4375rem] dark:border-grey-light border-grey-darkest"
+        className={classNames(
+          "w-full border-solid border-2 rounded-md h-[2.5rem] pl-4 flex justify-between items-center min-w-[18.4375rem] ",
+          { "border-red-main": task.status.column === "" },
+          {
+            "dark:border-grey-light border-grey-darkest":
+              task.status.column !== "",
+          }
+        )}
       >
-        {newTask.status.column === "" ? (
+        {task.status.column === "" ? (
           <label className="text-[0.75rem] font-[700]">Select Status</label>
         ) : (
-          <p className="text-start">{newTask.status.column}</p>
+          <p className="text-start">{task.status.column}</p>
         )}
         <div
           className={classNames(
@@ -61,7 +68,7 @@ const StatusDropDownComp = (props: Props) => {
     >
       {columns?.map((column, index) => {
          const closeColumnsSetState = () => {
-            setNewTask((prev) => ({
+            setTask((prev) => ({
               ...prev,
               status: {
                 id: column.id,

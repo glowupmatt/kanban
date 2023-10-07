@@ -3,6 +3,7 @@
 import React from "react";
 import { BoardDataType } from "@/types/boardData";
 import { createContext, useState } from "react";
+import { TaskType, SubTaskType } from "@/types/taskType";
 
 type AppContextType = {
   boardData: BoardDataType[];
@@ -56,7 +57,7 @@ export default function AppContext({ children }: Props) {
               subTask: [
                 {
                   id: "",
-                  title: [{ title: "" }],
+                  title: "",
                   completed: false,
                   createdAt: "",
                   updatedAt: "",

@@ -2,24 +2,32 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import CloseIcon from "@mui/icons-material/Close";
 import { TaskType } from "./CreateTaskModal";
+import classNames from "classNames";
 
 type Props = {
-  newTask: TaskType;
-  setNewTask: React.Dispatch<React.SetStateAction<TaskType>>;
+  task: TaskType;
+  setTask: React.Dispatch<React.SetStateAction<TaskType>>;
+  isFormValid: boolean;
 };
 
 const CreateTaskFormComp = (props: Props) => {
-  const { newTask, setNewTask } = props;
+  const { task, setTask, isFormValid } = props;
   const removeColumnHandler = (index: number) => {
-    setNewTask((prev) => ({
+    setTask((prev) => ({
       ...prev,
-      subTasks: prev.subTasks.filter((_, i) => i !== index),
+      subTask: prev.subTask.filter((_, i) => i !== index),
     }));
   };
   const addSubTask = () => {
-    setNewTask((prev) => ({
+    setTask((prev) => ({
       ...prev,
-      subTasks: [...prev.subTasks, "Add Subtask"],
+      subTask: [
+        ...prev.subTask,
+        {
+          title: "Add Subtask",
+          completed: false,
+        },
+      ],
     }));
   };
 
@@ -31,10 +39,16 @@ const CreateTaskFormComp = (props: Props) => {
       <Input
         id="title"
         type="text"
-        value={newTask.title}
-        className="dark:border-grey-light border-grey-darkest border-solid border-2"
+        value={task.title}
+        className={classNames(
+          "border-solid border-2",
+          { "border-red-main": task.title === "" },
+          {
+            "dark:border-grey-light border-grey-darkest ": task.title !== "",
+          }
+        )}
         onChange={(e) => {
-          setNewTask({ ...newTask, title: e.target.value });
+          setTask({ ...task, title: e.target.value });
         }}
       />
       <label htmlFor="description" className="text-[0.75rem] font-[700]">
@@ -42,18 +56,31 @@ const CreateTaskFormComp = (props: Props) => {
       </label>
       <textarea
         id="description"
-        value={newTask.description}
-        className="dark:border-grey-light border-grey-darkest border-solid border-2 min-h-[7rem] w-full bg-transparent p-2 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+        value={task.description}
+        className={classNames(
+          "border-solid border-2 min-h-[7rem] w-full bg-transparent p-2 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          { "border-red-main": task.description === "" },
+          {
+            "dark:border-grey-light border-grey-darkest ":
+              task.description !== "",
+          }
+        )}
         onChange={(e) => {
-          setNewTask({ ...newTask, description: e.target.value });
+          setTask({ ...task, description: e.target.value });
         }}
       />
-      {newTask.subTasks.map((subTask, index) => {
+      {!task.subTask ? (
+        <p className="w-full text-center text-red-main font-[700]">
+          Must Add Subtask
+        </p>
+      ) : null}
+      {task.subTask.map((subTask, index) => {
         const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-          setNewTask((prev) => ({
+          const { value } = e.target;
+          setTask((prev) => ({
             ...prev,
-            subTasks: prev.subTasks.map((sub, i) =>
-              i === index ? e.target.value : sub
+            subTask: prev.subTask.map((sub, i) =>
+              i === index ? { ...sub, title: value } : sub
             ),
           }));
         };
@@ -62,7 +89,7 @@ const CreateTaskFormComp = (props: Props) => {
             <Input
               type="text"
               className="dark:border-grey-light border-grey-darkest border-solid border-2"
-              value={subTask}
+              value={subTask.title}
               onChange={onChange}
             />
             <div onClick={() => removeColumnHandler(index)}>

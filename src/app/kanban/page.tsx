@@ -51,7 +51,7 @@ const KanbanPage = (props: Props) => {
       getBoardData().finally(() => setUpdated(false));
     }
   }, [setBoardData, updated, setUpdated]);
-  console.log(boardData);
+
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">
       <div

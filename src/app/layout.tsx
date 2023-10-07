@@ -7,6 +7,9 @@ import AppContext from "@/context/AppContext";
 export const metadata: Metadata = {
   title: "Kanban",
   description: "Track your tasks with Our Kanban App",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

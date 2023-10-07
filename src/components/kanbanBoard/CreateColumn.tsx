@@ -34,26 +34,33 @@ const CreateColumn = (props: Props) => {
     }
   });
   const [localUpdatedState, setLocalUpdatedState] = useState<boolean>(false);
-
+  const [didBoardNameChange, setDidBoardNameChange] = useState<boolean>(false);
   const [newBoardColumns, setNewBoardColumns] = useState(["Add A New Column"]);
-
   const [deleteColumnIdHolder, setDeleteColumnIdHolder] = useState<string[]>(
     []
   );
-  console.log(deleteColumnIdHolder);
-  const noColumns = newBoardColumns.length === 0;
   useEffect(() => {
     if (
-      (boardName.length && newBoardColumns.length) ||
-      (newBoardColumns.length &&
-        newBoardColumns.every((column) => column.length))
+      (boardName.length &&
+        newBoardColumns.length &&
+        deleteColumnIdHolder.length) ||
+      (didBoardNameChange &&
+        boardName.length &&
+        deleteColumnIdHolder.length &&
+        !newBoardColumns.length) ||
+      (newBoardColumns.every((column) => column.length) && boardName.length > 0)
     ) {
-      console.log(newBoardColumns.length, "CHECKING");
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
     }
-  }, [newBoardColumns, boardName, noColumns]);
+  }, [
+    newBoardColumns,
+    boardName,
+    didBoardNameChange,
+    deleteColumnIdHolder,
+    oldBoardColumns,
+  ]);
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -99,6 +106,7 @@ const CreateColumn = (props: Props) => {
           deleteFunction(displayBoard.id, id);
         });
       }
+      setDidBoardNameChange(false);
     } catch (err) {
       console.log(err);
     }
@@ -116,11 +124,12 @@ const CreateColumn = (props: Props) => {
           className="flex flex-col gap-4 w-full items-center"
           onSubmit={onSubmitHandler}
         >
-          {columns.length <= 0 ? (
+          {!columns.length ? (
             <div className="w-full flex flex-col gap-3">
               <BoardTitleInput
                 boardName={boardName}
                 setBoardName={setBoardName}
+                setDidBoardNameChange={setDidBoardNameChange}
               />
               <p className="text-[0.75rem] font-[700]">Board Columns</p>
               <NoCurrentColumns
@@ -140,6 +149,7 @@ const CreateColumn = (props: Props) => {
                 <BoardTitleInput
                   boardName={boardName}
                   setBoardName={setBoardName}
+                  setDidBoardNameChange={setDidBoardNameChange}
                 />
               </div>
               <HasColumns

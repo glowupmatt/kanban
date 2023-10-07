@@ -10,7 +10,6 @@ type Props = {
 
 const BoardSubmitButton = (props: Props) => {
   const { newBoardColumns, isFormValid } = props;
-  console.log(isFormValid);
 
   return (
     <Button

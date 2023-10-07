@@ -28,9 +28,9 @@ const ColumnInput = (props: Props) => {
     setOldBoardColumns((prev) => {
       const newBoardColumns = prev;
       newBoardColumns[index] = value;
+      setLocalUpdatedState(true);
       return newBoardColumns;
     });
-    setLocalUpdatedState(true);
   };
 
   const onIdBufferHandler = (id: string) => {

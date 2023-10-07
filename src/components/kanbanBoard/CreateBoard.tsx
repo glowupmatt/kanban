@@ -11,7 +11,6 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { DataContext } from "@/context/AppContext";
 import NewColumnInput from "./editBoard/NewColumnInput";
-import { isStringEmpty } from "@/lib/inputChecker";
 import BoardSubmitButton from "./editBoard/BoardSubmitButton";
 import BoardTitleInput from "./editBoard/BoardTitleInput";
 
@@ -22,6 +21,7 @@ const CreateBoard = (props: Props) => {
   const [newBoardColumns, setNewBoardColumns] = useState([""]);
   const [boardName, setBoardName] = useState("New Board");
   const [isFormValid, setIsFormValid] = useState(false);
+  const [didBoardNameChange, setDidBoardNameChange] = useState<boolean>(false);
 
   useEffect(() => {
     if (
@@ -69,7 +69,11 @@ const CreateBoard = (props: Props) => {
           <DialogTitle className="text-start">Add New Board</DialogTitle>
         </DialogHeader>
         <form className="flex flex-col gap-[1.5rem]" onSubmit={onSubmitHandler}>
-          <BoardTitleInput boardName={boardName} setBoardName={setBoardName} />
+          <BoardTitleInput
+            boardName={boardName}
+            setBoardName={setBoardName}
+            setDidBoardNameChange={setDidBoardNameChange}
+          />
           <div className="flex flex-col gap-4">
             <div>
               <label

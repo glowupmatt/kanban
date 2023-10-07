@@ -12,7 +12,7 @@ const ContainsColumnsDisplay = (props: Props) => {
   const columns: ColumnsType[] = displayBoard?.columns;
   return (
     <div className="w-full h-full">
-      {(selectedBoardId === "" && columns?.length <= 0) ||
+      {(!selectedBoardId.length && columns?.length <= 0) ||
       columns?.length <= 0 ? (
         <div className="flex flex-col justify-center items-center gap-[2.5rem] h-full">
           <h2 className="text-grey-medium text-center max-w-[21.4375rem ]">

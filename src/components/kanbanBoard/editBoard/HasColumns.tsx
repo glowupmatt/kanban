@@ -34,24 +34,6 @@ const HasColumns = (props: Props) => {
     setNewBoardColumns((prev) => [...prev, ""]);
   };
 
-  // Sets the new column title to the newBoardColumns state
-  // const columnOnChangeHandler = (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   const { value } = event.target;
-  //   setNewBoardColumns((prev) => {
-  //     const newBoardColumns = prev;
-  //     newBoardColumns[index] = value;
-  //     return newBoardColumns;
-  //   });
-  // };
-
-  // Removes a column from the form
-  // const removeColumnHandler = (index: number) => {
-  //   setNewBoardColumns((prev) => [...prev.filter((_, i) => i !== index)]);
-  // };
-
   return (
     <div className="flex flex-col items-center w-full">
       <label htmlFor="newBoardColumns" className="text-start w-full">
