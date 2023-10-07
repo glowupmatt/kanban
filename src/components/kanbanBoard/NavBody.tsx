@@ -26,8 +26,6 @@ const NavBody = (props: Props) => {
     <div className="w-full flex justify-center items-center">
       <div className={classNames("w-full flex")}>
         <Nav setEditBoardToggle={setEditBoardToggle} />
-
-        {!boardOpen ? null : <BoardMenu />}
       </div>
       {!boardOpen ? null : <BoardMenu />}
       {!editBoardToggle ? null : (
