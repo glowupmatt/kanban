@@ -64,7 +64,7 @@ const CreateBoard = (props: Props) => {
       <DialogTrigger>
         <h3>Create Board</h3>
       </DialogTrigger>
-      <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full">
+      <DialogContent className="dark:bg-grey-darkest p-4 rounded-md max-w-[21.4375rem] overflow-scroll max-h-full z-[20]">
         <DialogHeader>
           <DialogTitle className="text-start">Add New Board</DialogTitle>
         </DialogHeader>

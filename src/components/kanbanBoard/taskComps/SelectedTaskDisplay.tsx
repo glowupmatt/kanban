@@ -50,6 +50,7 @@ const SelectedTaskDisplay = (props: Props) => {
   ) => {
     return completedSubTaskLengthStorage.includes(id);
   };
+  const [checked, setChecked] = useState(subTask.map((task) => task.completed));
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,6 +104,8 @@ const SelectedTaskDisplay = (props: Props) => {
                   setCompletedSubTaskLengthStorage={
                     setCompletedSubTaskLengthStorage
                   }
+                  checked={checked}
+                  setChecked={setChecked}
                 />
               );
             })}

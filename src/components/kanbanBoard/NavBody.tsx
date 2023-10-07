@@ -5,6 +5,16 @@ import BoardMenu from "./BoardMenu";
 import EditBoardModal from "./editBoard/EditBoardModal";
 import classNames from "classnames";
 import { DataContext } from "@/context/AppContext";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu";
 
 type Props = {};
 
@@ -16,6 +26,8 @@ const NavBody = (props: Props) => {
     <div className="w-full flex justify-center items-center">
       <div className={classNames("w-full flex")}>
         <Nav setEditBoardToggle={setEditBoardToggle} />
+
+        {!boardOpen ? null : <BoardMenu />}
       </div>
       {!boardOpen ? null : <BoardMenu />}
       {!editBoardToggle ? null : (

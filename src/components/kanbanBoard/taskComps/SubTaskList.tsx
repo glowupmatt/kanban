@@ -17,6 +17,8 @@ type Props = {
   setCompletedSubTaskLengthStorage: React.Dispatch<
     React.SetStateAction<string[]>
   >;
+  setChecked: React.Dispatch<React.SetStateAction<boolean[]>>;
+  checked: boolean[];
 };
 
 const SubTaskList = (props: Props) => {
@@ -25,11 +27,17 @@ const SubTaskList = (props: Props) => {
     task,
     completedSubTaskLengthStorage,
     setCompletedSubTaskLengthStorage,
+    setChecked,
+    checked,
   } = props;
   const { title, completed, id } = task;
-  const [checked, setChecked] = useState(false);
+
   const onCheckHandler = (selectedId: string) => {
-    setChecked((prev) => !prev);
+    setChecked((prev) => {
+      const newChecked = [...prev];
+      newChecked[index] = !newChecked[index];
+      return newChecked;
+    });
     setCompletedSubTaskLengthStorage((prev) =>
       prev.includes(selectedId)
         ? prev.filter((id) => id !== selectedId)
@@ -42,9 +50,13 @@ const SubTaskList = (props: Props) => {
       key={index}
       className="flex justify-start items-center gap-4 w-full max-w-[18.4375rem] min-h-[2.5rem] bg-white dark:bg-black-dark p-4"
     >
-      <Checkbox id={`task${id}`} onClick={() => onCheckHandler(id)} />
+      <Checkbox
+        id={`task${id}`}
+        checked={checked[index]}
+        onClick={() => onCheckHandler(id)}
+      />
       <Label htmlFor={`task${id}`} className="cursor-pointer">
-        {checked === true ? <s>{title}</s> : title}
+        {checked[index] ? <s> {title}</s> : <p> {title}</p>}
       </Label>
     </div>
   );
