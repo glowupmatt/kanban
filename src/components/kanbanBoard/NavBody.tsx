@@ -5,16 +5,6 @@ import BoardMenu from "./BoardMenu";
 import EditBoardModal from "./editBoard/EditBoardModal";
 import classNames from "classnames";
 import { DataContext } from "@/context/AppContext";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "@/components/ui/navigation-menu";
 
 type Props = {};
 

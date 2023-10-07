@@ -18,7 +18,7 @@ const EditBoardModal = (props: Props) => {
 
   return (
     <div>
-      <div className={classNames("absolute top-[4rem] right-[1rem] z-[30]")}>
+      <div className={classNames("absolute top-[4rem] right-[1rem] z-[500]")}>
         <Card className=" min-h-[5.875rem] min-w-[12rem] bg-white dark:bg-grey-dark rounded-lg">
           {displayBoard.columns.length <= 0 || boardData.length <= 0 ? (
             <CardContent className="min-h-[6rem] p-0 w-full flex flex-col gap-4 justify-center items-start pl-4">

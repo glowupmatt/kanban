@@ -39,23 +39,39 @@ const SelectedTaskDisplay = (props: Props) => {
   const { setUpdated } = useContext(DataContext);
   const { task } = props;
   const { title, description, subTask, columnId } = task;
-  const completedSubTask = subTask.filter((task) => task.completed === true);
+
   const [completedSubTaskLengthStorage, setCompletedSubTaskLengthStorage] =
     useState<string[]>([]);
   const [selectedCurrentStatus, setSelectedCurrentStatus] =
     useState<string>(columnId);
+  const [checked, setChecked] = useState(
+    subTask.filter((task) => task.completed === true)
+  );
+  console.log(checked, "CHECKED");
   const hasSelectedTask = (
     id: string,
     completedSubTaskLengthStorage: string[]
   ) => {
-    return completedSubTaskLengthStorage.includes(id);
+    if (
+      subTask.find((data) => data.completed === true) &&
+      completedSubTaskLengthStorage.includes(id)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   };
-  const [checked, setChecked] = useState(subTask.map((task) => task.completed));
+  console.log(checked, "CHECKED");
+
+  const completedSubTask = subTask.filter((task) => {
+    return task.completed === true;
+  });
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = {
-      subTask: task.subTask.map((task) => {
+      subTask: checked.map((task) => {
+        hasSelectedTask(task.id, completedSubTaskLengthStorage);
         return {
           ...task,
           completed: hasSelectedTask(task.id, completedSubTaskLengthStorage),
@@ -66,13 +82,16 @@ const SelectedTaskDisplay = (props: Props) => {
         columnId: selectedCurrentStatus,
       },
     };
+    console.log(data, "CHECKED");
     try {
       const response = await axios
         .put(`/api/task`, data)
         .then((res) => res)
         .finally(() => {
           setUpdated(true);
+          setCompletedSubTaskLengthStorage([]);
         });
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
