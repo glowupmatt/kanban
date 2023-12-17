@@ -3,7 +3,9 @@
 import React from "react";
 import { BoardDataType } from "@/types/boardData";
 import { createContext, useState } from "react";
+import { useSession } from "next-auth/react";
 import { TaskType, SubTaskType } from "@/types/taskType";
+import { type } from "os";
 
 type AppContextType = {
   boardData: BoardDataType[];
@@ -25,7 +27,7 @@ type Props = {
 
 export default function AppContext({ children }: Props) {
   const [boardData, setBoardData] = useState<BoardDataType[]>([]);
-  const [boardOpen, setBoardOpen] = useState<boolean>(false);
+  const [boardOpen, setBoardOpen] = useState<boolean>(true);
   const [updated, setUpdated] = useState<boolean>(true);
   const [selectedBoardId, setSelectedBoardId] = useState<string>("");
   let displayBoard: BoardDataType | undefined;
@@ -85,7 +87,7 @@ export default function AppContext({ children }: Props) {
           setUpdated,
           displayBoard,
           boardOpen,
-          setBoardOpen,
+          setBoardOpen
         } as AppContextType
       }
     >

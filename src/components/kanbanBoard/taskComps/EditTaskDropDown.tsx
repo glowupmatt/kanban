@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import classNames from "classnames";
 import { deepPurple, grey } from "@mui/material/colors";
 import { DataContext } from "@/context/AppContext";
-import { set } from "react-hook-form";
+import { TaskType } from "./CreateTaskModal";
 
 type Props = {
   task: {
@@ -51,7 +51,6 @@ const EditTaskDropDown = (props: Props) => {
         onClick={openColumns}
         className={classNames(
           "w-full border-solid border-2 rounded-md h-[2.5rem] pl-4 flex justify-between items-center min-w-[18.4375rem] ",
-          { "border-red-main": selectedColumnState === "" },
           {
             "dark:border-grey-light border-grey-darkest":
               selectedColumnState !== "",

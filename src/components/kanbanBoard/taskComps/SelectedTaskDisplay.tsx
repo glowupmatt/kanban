@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, use } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import {
   DialogContent,
@@ -7,12 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { deepPurple, grey } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SubTaskList from "./SubTaskList";
 import EditTaskDropDown from "./EditTaskDropDown";
 import SubmitEditButton from "./SubmitEditButton";
 import { DataContext } from "@/context/AppContext";
+import EditTask from "./EditTask";
 
 type Props = {
   task: {
@@ -47,7 +46,6 @@ const SelectedTaskDisplay = (props: Props) => {
   const [checked, setChecked] = useState(
     subTask.filter((task) => task.completed === true)
   );
-  console.log(checked, "CHECKED");
   const hasSelectedTask = (
     id: string,
     completedSubTaskLengthStorage: string[]
@@ -61,7 +59,6 @@ const SelectedTaskDisplay = (props: Props) => {
       return true;
     }
   };
-  console.log(checked, "CHECKED");
 
   const completedSubTask = subTask.filter((task) => {
     return task.completed === true;
@@ -102,10 +99,12 @@ const SelectedTaskDisplay = (props: Props) => {
         <div className="flex w-full justify-between">
           <DialogTitle>{title}</DialogTitle>
           <div className="">
-            <MoreVertIcon sx={{ color: deepPurple[`A100`] }} />
+            <EditTask task={task}/>
           </div>
         </div>
-        <DialogDescription>{description}</DialogDescription>
+        <DialogDescription className="flex justify-between w-full max-w-[19rem]">
+          {description}
+        </DialogDescription>
       </DialogHeader>
       <form className="flex flex-col gap-3" onSubmit={onSubmitHandler}>
         <div className="flex flex-col gap-[1.5rem]">

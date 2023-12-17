@@ -69,12 +69,11 @@ const SubTaskList = (props: Props) => {
         : [...prev, selectedId]
     );
   };
-  console.log(completedSubTaskLengthStorage);
 
   return (
     <div
       key={index}
-      className="flex justify-start items-center gap-4 w-full max-w-[18.4375rem] min-h-[2.5rem] bg-white dark:bg-black-dark p-4"
+      className="flex justify-start items-center gap-4 w-full max-w-[18.4375rem] min-h-[2.5rem] bg-grey-light rounded dark:bg-black-dark p-4 "
     >
       <Checkbox
         id={`task${id}`}

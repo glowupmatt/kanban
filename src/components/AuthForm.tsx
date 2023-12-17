@@ -44,7 +44,6 @@ const AuthForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-
     if (variant === "REGISTER") {
       axios
         .post("/api/register", data)
@@ -70,9 +69,30 @@ const AuthForm = () => {
         .finally(() => setIsLoading(false));
     }
   };
+
+  const guestSubmit: SubmitHandler<FieldValues> = () => {
+    setIsLoading(true);
+    signIn("credentials", {
+      name: 'guest',
+      email: 'guest@guest.com',
+      password: 'guest',
+      redirect: false,
+  })
+  .then((callback) => {
+    if (callback?.error) {
+      toast.error("Invalid credentials");
+    }
+
+    if (callback?.ok && !callback?.error) {
+      toast.success("Logged in!");
+      router.push("/users");
+    }
+  })
+  .finally(() => {setIsLoading(false)});
+}
   return (
     <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+      <div className="flex flex-col gap-2 bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         {/* Email Password Input */}
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
@@ -100,13 +120,17 @@ const AuthForm = () => {
             errors={errors}
             disabled={isLoading}
           />
-          <div>
+          <div className="w-full justify-between flex">
             <Button disabled={isLoading} type="submit">
               {variant === "LOGIN" ? "Sign in" : "Register"}
             </Button>
           </div>
         </form>
-
+        <form onSubmit={handleSubmit(guestSubmit)}>
+            <Button>
+              Continue as Guest
+            </Button>
+        </form>
         {/* Create and account section */}
 
         <div className=" flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">

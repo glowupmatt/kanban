@@ -10,7 +10,6 @@ import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
 import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
 import { Draggable } from "@/components/DragableFile";
 import { DataContext } from "@/context/AppContext";
-import { motion, AnimatePresence, useAnimate, useInView } from "framer-motion";
 
 type Props = {};
 
