@@ -15,8 +15,6 @@ type Props = {};
 
 const KanbanPage = (props: Props) => {
   const {
-    boardData,
-    displayBoard,
     setBoardData,
     setUpdated,
     updated,
@@ -50,6 +48,7 @@ const KanbanPage = (props: Props) => {
       getBoardData().finally(() => setUpdated(false));
     }
   }, [setBoardData, updated, setUpdated]);
+
 
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">

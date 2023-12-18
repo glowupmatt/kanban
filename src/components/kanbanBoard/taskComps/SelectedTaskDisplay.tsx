@@ -79,7 +79,6 @@ const SelectedTaskDisplay = (props: Props) => {
         columnId: selectedCurrentStatus,
       },
     };
-    console.log(data, "CHECKED");
     try {
       const response = await axios
         .put(`/api/task`, data)
@@ -88,7 +87,6 @@ const SelectedTaskDisplay = (props: Props) => {
           setUpdated(true);
           setCompletedSubTaskLengthStorage([]);
         });
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -108,9 +106,6 @@ const SelectedTaskDisplay = (props: Props) => {
       </DialogHeader>
       <form className="flex flex-col gap-3" onSubmit={onSubmitHandler}>
         <div className="flex flex-col gap-[1.5rem]">
-          <h4>
-            Subtasks {completedSubTask.length} of {subTask.length}
-          </h4>
           <div className="flex flex-col gap-2">
             {subTask.map((task, index) => {
               return (

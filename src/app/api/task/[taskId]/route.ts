@@ -1,6 +1,35 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismaDb";
+
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { taskId: string } }
+) {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser?.id) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const task = await prisma.task.delete({
+      where: {
+        id: params.taskId,
+      },
+      include: {
+        subTask: true,
+      },
+    });
+
+    return new NextResponse(JSON.stringify(task), { status: 200 });
+  } catch (error) {
+    console.log(error, "Delete Task Error");
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
 export async function PUT(
   request: Request,
   { params }: { params: { taskId: string } }

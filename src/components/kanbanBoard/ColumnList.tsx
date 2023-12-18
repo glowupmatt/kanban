@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import { ColumnsType } from "@/types/columnsType";
 import NoColumnsDisplay from "./columnDisplay/NoColumnsDisplay";
 import ContainsColumnsDisplay from "./columnDisplay/ContainsColumnsDisplay";
 import { DataContext } from "@/context/AppContext";

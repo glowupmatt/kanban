@@ -63,7 +63,7 @@ const AuthForm = () => {
 
           if (callback?.ok && !callback?.error) {
             toast.success("Logged in!");
-            router.push("/users");
+            router.push("/kanban");
           }
         })
         .finally(() => setIsLoading(false));
@@ -85,7 +85,7 @@ const AuthForm = () => {
 
     if (callback?.ok && !callback?.error) {
       toast.success("Logged in!");
-      router.push("/users");
+      router.push("/kanban");
     }
   })
   .finally(() => {setIsLoading(false)});

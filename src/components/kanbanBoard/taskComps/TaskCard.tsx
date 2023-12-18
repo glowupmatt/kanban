@@ -28,7 +28,7 @@ const TaskCard = (props: Props) => {
       </CardHeader>
       <CardContent>
         <CardDescription className="flex justify-between w-full max-w-[19rem]">
-          <h5>{description}</h5>
+          {description}
         </CardDescription>
       </CardContent>
     </Card>

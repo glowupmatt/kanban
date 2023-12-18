@@ -67,7 +67,6 @@ export async function PUT(request: Request) {
     const currentUser = await getCurrentUser();
     const body = await request.json();
     const { subTask, tasks } = body;
-    console.log(body, "body");
 
     if (!currentUser?.id) {
       return new NextResponse("Unauthorized", { status: 401 });

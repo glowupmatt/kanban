@@ -38,7 +38,6 @@ export async function PUT(
     const currentUser = await getCurrentUser();
     const body = await request.json();
     const { title, columns } = body;
-    console.log(title, columns);
 
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("Unauthorized", { status: 401 });
