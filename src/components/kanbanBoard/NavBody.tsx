@@ -10,7 +10,6 @@ type Props = {};
 
 const NavBody = (props: Props) => {
   const { boardOpen } = useContext(DataContext);
-  //Sets edit board modal open/close
   const [editBoardToggle, setEditBoardToggle] = useState(false);
   return (
     <div className="w-full flex justify-center items-center">
