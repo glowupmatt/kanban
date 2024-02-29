@@ -4,13 +4,6 @@ import classNames from "classnames";
 import Image from "next/image";
 import SideBar from "../kanbanBoard/SideBar";
 import { DataContext } from "@/context/AppContext";
-import {
-  motion,
-  AnimatePresence,
-  useAnimate,
-  useInView,
-  usePresence,
-} from "framer-motion";
 
 type Props = {};
 

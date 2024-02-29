@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext, use } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 import ColumnList from "@/components/kanbanBoard/ColumnList";
-import axios from "axios";
+import useFetchBoardData from "@/components/kanbanBoard/kanbanHooks/useFetchBoardData";
 import NavBody from "@/components/kanbanBoard/NavBody";
 import VisibilityButton from "@/components/sideBarComps/VisibilityButton";
 import SideBarContainer from "@/components/sideBarComps/SideBarContainer";
@@ -14,41 +14,17 @@ import { DataContext } from "@/context/AppContext";
 type Props = {};
 
 const KanbanPage = (props: Props) => {
-  const {
-    setBoardData,
-    setUpdated,
-    updated,
-    boardOpen,
-  } = useContext(DataContext);
-
+  const { boardOpen } = useContext(DataContext);
   const boardRef = useRef(null);
-
-  //Redirection to login page if user is not authenticated
   const session = useSession();
   const router = useRouter();
+  useFetchBoardData();
+
   useEffect(() => {
     if (session?.status === "unauthenticated") {
       router.push("/");
     }
   }, [session, router]);
-  useEffect(() => {
-    const getBoardData = async () => {
-      const res = await axios
-        .get("/api/createBoard")
-        .then((res) => {
-          setBoardData(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      return res;
-    };
-
-    if (updated) {
-      getBoardData().finally(() => setUpdated(false));
-    }
-  }, [setBoardData, updated, setUpdated]);
-
 
   return (
     <div className="md:flex md:w-full flex-row-reverse md:h-screen overflow-screen w-full max-w-[200.25rem] md:items-center md:justify-start md:overflow-hidden relative">

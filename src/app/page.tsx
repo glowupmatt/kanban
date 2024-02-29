@@ -1,4 +1,4 @@
-import AuthForm from "@/components/AuthForm";
+import AuthForm from "@/components/authFolder/AuthForm";
 import LightDarkTheme from "@/components/LightDarkTheme";
 import React from "react";
 

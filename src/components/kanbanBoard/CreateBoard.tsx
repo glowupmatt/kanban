@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,16 +8,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@mui/material";
-import axios from "axios";
-import { DataContext } from "@/context/AppContext";
 import NewColumnInput from "./editBoard/NewColumnInput";
 import BoardSubmitButton from "./editBoard/BoardSubmitButton";
 import BoardTitleInput from "./editBoard/BoardTitleInput";
+import useCreateBoardSubmit from "./kanbanHooks/useCreateBoardSubmit";
 
 type Props = {};
 
 const CreateBoard = (props: Props) => {
-  const { setUpdated } = useContext(DataContext);
   const [newBoardColumns, setNewBoardColumns] = useState([""]);
   const [boardName, setBoardName] = useState("New Board");
   const [isFormValid, setIsFormValid] = useState(false);
@@ -39,26 +37,6 @@ const CreateBoard = (props: Props) => {
     setNewBoardColumns((prev) => [...prev, `New Column`]);
   };
 
-  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isFormValid) {
-      const data = {
-        title: e.currentTarget.boardName.value,
-        columns: newBoardColumns.map((title) => title),
-      };
-      const res = await axios
-        .post("/api/createBoard", {
-          ...data,
-          ...data.columns,
-        })
-        .then((res) => res)
-        .finally(() => {
-          setUpdated(true);
-          setNewBoardColumns([""]);
-          setBoardName("");
-        });
-    }
-  };
   return (
     <Dialog>
       <DialogTrigger>
@@ -68,7 +46,15 @@ const CreateBoard = (props: Props) => {
         <DialogHeader>
           <DialogTitle className="text-start">Add New Board</DialogTitle>
         </DialogHeader>
-        <form className="flex flex-col gap-[1.5rem]" onSubmit={onSubmitHandler}>
+        <form
+          className="flex flex-col gap-[1.5rem]"
+          onSubmit={useCreateBoardSubmit(
+            setNewBoardColumns,
+            setBoardName,
+            isFormValid,
+            newBoardColumns
+          )}
+        >
           <BoardTitleInput
             boardName={boardName}
             setBoardName={setBoardName}

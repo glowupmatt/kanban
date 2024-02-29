@@ -5,7 +5,6 @@ import { BoardDataType } from "@/types/boardData";
 import { createContext, useState } from "react";
 import { useSession } from "next-auth/react";
 import { TaskType, SubTaskType } from "@/types/taskType";
-import { type } from "os";
 
 type AppContextType = {
   boardData: BoardDataType[];
@@ -87,7 +86,7 @@ export default function AppContext({ children }: Props) {
           setUpdated,
           displayBoard,
           boardOpen,
-          setBoardOpen
+          setBoardOpen,
         } as AppContextType
       }
     >
