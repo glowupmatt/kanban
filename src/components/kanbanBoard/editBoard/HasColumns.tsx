@@ -1,9 +1,6 @@
 import React from "react";
-import { Input } from "../../ui/input";
-import CloseIcon from "@mui/icons-material/Close";
 import { ColumnsType } from "@/types/columnsType";
 import ColumnInput from "../columnDisplay/ColumnInput";
-import { isStringEmpty } from "@/lib/inputChecker";
 import NewColumnInput from "./NewColumnInput";
 
 type Props = {
