@@ -2,10 +2,9 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     container: {
@@ -17,6 +16,26 @@ module.exports = {
     },
     extend: {
       colors: {
+        purple: {
+          main: "#635FC7",
+          hover: "#A8A4FF ",
+        },
+        black: {
+          main: "#000112",
+          dark: "#20212C",
+        },
+        grey: {
+          darkest: "#2B2C37",
+          dark: "#3E3F4E",
+          medium: "#828FA3",
+          light: "#E4EBFA",
+          lightest: "#F4F7FD",
+        },
+        white: "#FFFFFF",
+        red: {
+          main: "#EA5555",
+          hover: "#FF9898",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -89,6 +108,9 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      fontFamily: {
+        "Plus Jakarta Sans": ["Plus Jakarta Sans", "sans-serif"],
       },
     },
   },

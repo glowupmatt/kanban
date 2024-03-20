@@ -9,9 +9,8 @@ export const useToggleVariant = () => {
 
   const toggleVariant = useCallback(() => {
     setVariant((prevVariant) =>
-      prevVariant === "LOGIN" ? "REGISTER" : "LOGIN"
+      prevVariant === "LOGIN" ? "REGISTER" : "LOGIN",
     );
   }, []);
-
   return { variant, toggleVariant };
 };

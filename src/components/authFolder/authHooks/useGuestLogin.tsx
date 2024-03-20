@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { SubmitHandler, FieldValues } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
@@ -6,10 +6,9 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 const useGuestSubmit = (
   setIsLoading: (isLoading: boolean) => void,
-  data: FieldValues,
-  router: AppRouterInstance
+  router: AppRouterInstance,
 ): SubmitHandler<FieldValues> => {
-  return (data) => {
+  return (data, event) => {
     setIsLoading(true);
     signIn("credentials", {
       name: "guest",

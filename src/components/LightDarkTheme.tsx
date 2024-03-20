@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { grey } from "@mui/material/colors";
 import { useTheme } from "next-themes";
 
 type Props = {};

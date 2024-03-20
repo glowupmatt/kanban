@@ -6,7 +6,8 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import CreateBoard from "../CreateBoard";
 import CreateColumn from "../CreateColumn";
 import { DataContext } from "@/context/AppContext";
-import { isStringEmpty } from "@/lib/inputChecker";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   setEditBoardToggle: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,9 +16,13 @@ type Props = {
 const EditBoardModal = (props: Props) => {
   const { setEditBoardToggle } = props;
   const { displayBoard, boardData } = useContext(DataContext);
+  const session = useSession();
+  const logoutHandler = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
-    <div>
+    <>
       <div className={classNames("absolute top-[4rem] right-[1rem] z-[500]")}>
         <Card className=" min-h-[5.875rem] min-w-[12rem] bg-white dark:bg-grey-dark rounded-lg  p-4">
           {displayBoard.columns.length <= 0 || boardData.length <= 0 ? (
@@ -32,9 +37,17 @@ const EditBoardModal = (props: Props) => {
               />
             </CardContent>
           )}
+          <div className="w-full justify-center align-center flex">
+            <Button
+              onClick={logoutHandler}
+              className="bg-purple-main text-grey-light hover:bg-purple-hover"
+            >
+              Logout
+            </Button>
+          </div>
         </Card>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,18 +1,18 @@
 "use client";
-import React, { useState } from "react";
-import Input from "@/components/reusableAssetes/Input";
+import React from "react";
+import Input from "@/components/reusableAssets/Input";
 import handelFormSubmit from "./authHooks/useLogin";
-import Button from "@/components/reusableAssetes/Button";
+import Button from "@/components/reusableAssets/Button";
 import { FieldValues, useForm } from "react-hook-form";
-import { useToggleVariant } from "./authHooks/useVariant";
 
 type Props = {
   setIsLoading: (isLoading: boolean) => void;
   isLoading: boolean;
+  variant: "LOGIN" | "REGISTER";
 };
 
 const LoginFormInput = (props: Props) => {
-  const { setIsLoading, isLoading } = props;
+  const { setIsLoading, isLoading, variant } = props;
   const {
     register,
     handleSubmit,
@@ -24,12 +24,12 @@ const LoginFormInput = (props: Props) => {
       password: "",
     },
   });
-  const { variant } = useToggleVariant();
+
   return (
     <form
       className="space-y-6"
       onSubmit={handleSubmit(
-        handelFormSubmit(variant, setIsLoading, handleSubmit)
+        handelFormSubmit(variant, setIsLoading, handleSubmit),
       )}
     >
       {variant === "REGISTER" && (
