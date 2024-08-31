@@ -33,7 +33,6 @@ const AuthForm = () => {
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="flex flex-col gap-2 bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-        {/* Email Password Input */}
         <LoginFormInput
           variant={variant}
           setIsLoading={setIsLoading}
@@ -42,7 +41,7 @@ const AuthForm = () => {
         <form onSubmit={handleSubmit(useGuestSubmit(setIsLoading, router))}>
           <Button>Continue as Guest</Button>
         </form>
-        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
+        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-600">
           <div onClick={toggleVariant}>
             {variant === "LOGIN" ? "New to Kanban?" : "Already have an account"}
           </div>
