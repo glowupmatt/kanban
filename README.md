@@ -37,7 +37,7 @@ A Kanban board is a visual tool for project management, offering an immediate an
 
 You can try out the live demo of the Kanban Board here:
 
-[Kanban Board Demo](https://kanban-ecdozt5kp-glowupmatt.vercel.app/)
+[Kanban Board Demo](https://kanban-proj.vercel.app/)
 
 ## Setup
 
