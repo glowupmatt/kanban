@@ -112,8 +112,3 @@ We welcome contributions to improve the app! To get started:
 3. Make your changes.
 4. Submit a pull request.
 
-Please ensure your code follows the project's coding standards and includes tests where applicable.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
